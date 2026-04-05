@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA Triathlon Education — Swim Pace Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --usa-red: #E31837;
+    --usa-navy: #0C2340;
+    --bright-red: #CE1141;
+    --dark-blue: #13294B;
+    --steel-blue: #4B7C9B;
+    --light-gray: #D6D6D6;
+    --white: #FFFFFF;
+    --charcoal: #3E3E3E;
+    --zone-v2: #607D8B;
+    --zone-v3: #E91E8C;
+    --zone-v4: #E31837;
+    --zone-v5: #1976D2;
+    --zone-v6: #7B1FA2;
+    --zone-v2-bg: #ECEFF1;
+    --zone-v3-bg: #FCE4F2;
+    --zone-v4-bg: #FFEBEE;
+    --zone-v5-bg: #E3F2FD;
+    --zone-v6-bg: #F3E5F5;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--charcoal);
+    background: #F5F6F8;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: var(--usa-navy);
+    color: var(--white);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.25);
+  }
+  .header-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 24px;
+  }
+  .header-logo { height: 56px; width: auto; flex-shrink: 0; }
+  .header-text { flex: 1; }
+  .header-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.75rem;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .header-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 400;
+    opacity: 0.75;
+    letter-spacing: 0.02em;
+    margin-top: 2px;
+  }
+
+  /* ── MAIN CONTAINER ── */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 24px 60px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .card-header {
+    background: var(--usa-navy);
+    color: var(--white);
+    padding: 14px 24px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-header .icon { font-size: 1.2rem; }
+  .card-body { padding: 24px; }
+
+  /* ── PROTOCOL INFO ── */
+  .protocol-info {
+    background: linear-gradient(135deg, #F0F4F8 0%, #E8EDF2 100%);
+    border: 1px solid #D0D8E0;
+    border-left: 4px solid var(--steel-blue);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--charcoal);
+  }
+  .protocol-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--usa-navy);
+    margin-bottom: 8px;
+  }
+  .protocol-info p { margin-bottom: 8px; }
+  .protocol-info p:last-child { margin-bottom: 0; }
+  .protocol-info ul { margin: 8px 0; padding-left: 20px; }
+  .protocol-info li { margin-bottom: 4px; }
+
+  /* ── ABILITY SELECTOR ── */
+  .ability-section { margin-bottom: 24px; }
+  .ability-question {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+    margin-bottom: 14px;
+  }
+  .ability-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+  .ability-card { position: relative; cursor: pointer; }
+  .ability-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .ability-card-inner {
+    border: 2px solid var(--light-gray);
+    border-radius: 10px;
+    padding: 18px 16px 16px;
+    text-align: center;
+    transition: all 0.2s;
+    background: var(--white);
+    height: 100%;
+  }
+  .ability-card:hover .ability-card-inner {
+    border-color: var(--steel-blue);
+    background: #F4F8FB;
+  }
+  .ability-card input:checked + .ability-card-inner {
+    border-color: var(--usa-navy);
+    background: var(--usa-navy);
+  }
+  .ability-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+    display: block;
+    margin-bottom: 6px;
+    transition: color 0.2s;
+  }
+  .ability-card input:checked + .ability-card-inner .ability-name { color: var(--white); }
+  .ability-desc {
+    font-size: 0.82rem;
+    color: #777;
+    line-height: 1.4;
+    transition: color 0.2s;
+    display: block;
+  }
+  .ability-card input:checked + .ability-card-inner .ability-desc { color: rgba(255,255,255,0.75); }
+  .ability-badge {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  .badge-beginner { background: #E8F5E9; color: #2E7D32; }
+  .badge-advanced { background: #E3F2FD; color: #1565C0; }
+  .badge-elite    { background: #FFF3E0; color: #E65100; }
+  .ability-card input:checked + .ability-card-inner .badge-beginner { background: rgba(255,255,255,0.2); color: #A5D6A7; }
+  .ability-card input:checked + .ability-card-inner .badge-advanced { background: rgba(255,255,255,0.2); color: #90CAF9; }
+  .ability-card input:checked + .ability-card-inner .badge-elite    { background: rgba(255,255,255,0.2); color: #FFCC80; }
+
+  /* ── TOGGLES ── */
+  .toggle-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .toggle-group {
+    display: flex;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid var(--usa-navy);
+  }
+  .toggle-group label {
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--usa-navy);
+    background: var(--white);
+    transition: all 0.2s;
+    user-select: none;
+    min-width: 90px;
+    text-align: center;
+  }
+  .toggle-group input { display: none; }
+  .toggle-group input:checked + label {
+    background: var(--usa-navy);
+    color: var(--white);
+  }
+
+  /* ── INPUTS ── */
+  .input-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-group label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+  }
+  .input-group .hint {
+    font-size: 0.78rem;
+    color: #888;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  input[type="text"], input[type="number"] {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    padding: 12px 16px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.2s;
+    color: var(--usa-navy);
+    width: 100%;
+    letter-spacing: 0.08em;
+  }
+  input:focus {
+    border-color: var(--steel-blue);
+    box-shadow: 0 0 0 3px rgba(75,124,155,0.15);
+  }
+  input::placeholder { color: #bbb; font-weight: 400; }
+  .input-with-btn { display: flex; gap: 8px; align-items: stretch; }
+  .input-with-btn input { flex: 1; }
+  .btn-estimate {
+    flex-shrink: 0;
+    background: var(--steel-blue);
+    color: var(--white);
+    border: none;
+    padding: 0 16px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-estimate:hover { background: var(--dark-blue); }
+
+  /* ── BUTTONS ── */
+  .btn-calculate {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--usa-red);
+    color: var(--white);
+    border: none;
+    padding: 14px 36px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    letter-spacing: 0.08em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 10px;
+  }
+  .btn-calculate:hover {
+    background: var(--bright-red);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(227,24,55,0.3);
+  }
+  .btn-calculate:active { transform: translateY(0); }
+  .btn-print {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--steel-blue);
+    color: var(--white);
+    border: none;
+    padding: 12px 28px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.06em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-print:hover { background: var(--dark-blue); }
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+
+  /* ── ERROR ── */
+  .error-msg {
+    background: #FFF3F3;
+    border-left: 4px solid var(--usa-red);
+    color: var(--usa-red);
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-weight: 600;
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ── RESULTS ── */
+  #results { display: none; }
+  #results.visible { display: block; animation: fadeUp 0.4s ease; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .test-summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .summary-chip {
+    background: var(--usa-navy);
+    color: var(--white);
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+  }
+  .summary-chip span { opacity: 0.7; font-weight: 400; }
+
+  /* ── PACE TABLE ── */
+  .pace-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -24px;
+    padding: 0 24px;
+  }
+  table.pace-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+    min-width: 820px;
+  }
+  table.pace-table thead th {
+    background: var(--usa-navy);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 10px 8px;
+    text-align: center;
+    white-space: nowrap;
+  }
+  table.pace-table thead th:first-child {
+    text-align: left;
+    padding-left: 14px;
+    min-width: 130px;
+  }
+  table.pace-table tbody tr:hover { filter: brightness(0.96); }
+  table.pace-table tbody td {
+    padding: 9px 8px;
+    text-align: center;
+    font-family: 'Source Sans 3', sans-serif;
+    font-weight: 600;
+    font-size: 0.92rem;
+    font-variant-numeric: tabular-nums;
+    border-bottom: 1px solid #EEE;
+  }
+  table.pace-table tbody td:first-child {
+    text-align: left;
+    padding-left: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.92rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .zone-dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+  tr.zone-v2 { background: var(--zone-v2-bg); }
+  tr.zone-v3 { background: var(--zone-v3-bg); }
+  tr.zone-v4 { background: var(--zone-v4-bg); }
+  tr.zone-v5 { background: var(--zone-v5-bg); }
+  tr.zone-v6 { background: var(--zone-v6-bg); }
+  .pace-per-100 {
+    font-size: 0.75rem;
+    color: #888;
+    font-weight: 400;
+    display: block;
+    line-height: 1.1;
+  }
+
+  /* ── BALANCE ANALYSIS ── */
+  .balance-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+  }
+  .balance-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--usa-navy);
+    margin-bottom: 12px;
+  }
+  .balance-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .balance-card { padding: 14px; border-radius: 8px; text-align: center; }
+  .balance-card-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .balance-card-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.03em;
+  }
+  .balance-card.predicted { background: var(--zone-v5-bg); border: 1px solid #90CAF9; }
+  .balance-card.predicted .balance-card-label { color: var(--zone-v5); }
+  .balance-card.predicted .balance-card-value { color: var(--zone-v5); }
+  .balance-card.actual { background: #FFF8E1; border: 1px solid #FFE082; }
+  .balance-card.actual .balance-card-label { color: #F57F17; }
+  .balance-card.actual .balance-card-value { color: #F57F17; }
+  .balance-verdict {
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .verdict-balanced  { background: #E8F5E9; border: 1px solid #A5D6A7; color: #2E7D32; }
+  .verdict-speed     { background: #FFF3E0; border: 1px solid #FFCC80; color: #E65100; }
+  .verdict-endurance { background: #E3F2FD; border: 1px solid #90CAF9; color: #1565C0; }
+
+  /* ── SHORTHAND REFERENCE ── */
+  .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .ref-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--usa-red);
+  }
+  .ref-item {
+    display: flex;
+    gap: 10px;
+    padding: 7px 0;
+    border-bottom: 1px solid #F0F0F0;
+    align-items: baseline;
+  }
+  .ref-abbr {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--usa-red);
+    min-width: 80px;
+    letter-spacing: 0.03em;
+  }
+  .ref-desc { font-size: 0.88rem; color: var(--charcoal); }
+  .example-workout {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 18px;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+  }
+  .example-workout .label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .anno { color: var(--steel-blue); font-size: 0.8rem; font-style: italic; }
+
+  /* ── FOOTER ── */
+  .site-footer {
+    text-align: center;
+    padding: 20px 24px;
+    color: #999;
+    font-size: 0.78rem;
+    border-top: 1px solid #E5E5E5;
+    margin-top: 20px;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: white; font-size: 11pt; }
+    .site-header { position: static; box-shadow: none; }
+    .header-inner { padding: 10px 0; }
+    .header-logo { height: 40px; }
+    .container { padding: 12px 0; }
+    .card { box-shadow: none; border: 1px solid #DDD; break-inside: avoid; margin-bottom: 16px; }
+    .card-header { padding: 8px 14px; font-size: 0.9rem; }
+    .card-body { padding: 14px; }
+    #inputCard { display: none; }
+    .btn-row { display: none; }
+    .no-print { display: none !important; }
+    .pace-table-wrap { overflow: visible; margin: 0; padding: 0; }
+    table.pace-table { min-width: auto; font-size: 0.78rem; }
+    table.pace-table thead th { padding: 6px 4px; font-size: 0.72rem; }
+    table.pace-table tbody td { padding: 5px 4px; font-size: 0.8rem; }
+    .pace-per-100 { font-size: 0.65rem; }
+    .ref-grid { gap: 14px; }
+    .balance-section { padding: 14px; }
+    .balance-grid { gap: 8px; }
+    .test-summary .summary-chip { padding: 4px 10px; font-size: 0.82rem; }
+    .site-footer { font-size: 0.7rem; padding: 10px 0; }
+    #results.visible { display: block !important; }
+    .ability-section { display: none; }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .header-inner { padding: 10px 16px; gap: 12px; }
+    .header-logo { height: 42px; }
+    .header-title { font-size: 1.3rem; }
+    .header-subtitle { font-size: 0.72rem; }
+    .container { padding: 16px 16px 40px; }
+    .card-body { padding: 16px; }
+    .input-grid { grid-template-columns: 1fr; gap: 14px; }
+    .ref-grid { grid-template-columns: 1fr; }
+    .toggle-group label { padding: 8px 14px; font-size: 0.85rem; min-width: 70px; }
+    .balance-grid { grid-template-columns: 1fr; }
+    .ability-cards { grid-template-columns: 1fr; }
+    table.pace-table { font-size: 0.8rem; }
+    table.pace-table tbody td { padding: 7px 5px; font-size: 0.82rem; }
+  }
+
+  @media (max-width: 480px) {
+    .toggle-row { flex-direction: column; }
+    .header-title { font-size: 1.15rem; }
+    .btn-calculate { width: 100%; justify-content: center; }
+    .btn-print { width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <img src="https://raw.githubusercontent.com/JustinTrolle/USAT-Images/69b6aab23b4b83a5a48a695384609d41462aac46/USA_Triathlon_Education_Logo_Transparent.png"
+         alt="USA Triathlon Education" class="header-logo">
+    <div class="header-text">
+      <div class="header-title">USA Triathlon Education — Swim Pace Calculator</div>
+      <div class="header-subtitle">Created by Justin Trolle &bull; Reproduced for USA Triathlon with permission</div>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<div class="container">
+
+  <!-- ── INPUT CARD ── -->
+  <div class="card" id="inputCard">
+    <div class="card-header"><span class="icon">&#9201;</span> Enter Your Test Times</div>
+    <div class="card-body">
+
+      <!-- Protocol Info -->
+      <div class="protocol-info">
+        <div class="protocol-title">&#9432; How to Perform the Swim Test</div>
+        <p>This calculator requires times from a <strong>100/500</strong> or <strong>200/800</strong> swim test performed as a single back-to-back effort with <strong>1 minute of recovery</strong> between the two distances.</p>
+        <ul>
+          <li><strong>Short distance (100 or 200):</strong> Swim as fast as possible — this is an all-out sprint effort from a push start.</li>
+          <li><strong>Rest 1 minute</strong>, then immediately begin the longer distance.</li>
+          <li><strong>Long distance (500 or 800):</strong> Swim at the fastest pace you can sustain for the full distance — hard but controlled.</li>
+        </ul>
+        <p>Accurate test times are essential for reliable pace zones. Long-course athletes (70.3 / Ironman) are encouraged to use the 200/800 test for better race-specific data, while short-course athletes may prefer the 100/500.</p>
+        <p><strong>New to swimming?</strong> If you know your short distance time but haven't yet completed the full test, use the <strong>&#9889; Estimate</strong> button next to the longer distance field. It will calculate an approximate time based on your short distance multiplied out and adding 25%. This is a starting point — completing the full test will always give you more accurate pace zones.</p>
+      </div>
+
+      <!-- Ability Level Selector -->
+      <div class="ability-section">
+        <div class="ability-question">Which group best describes your ability as a swimmer?</div>
+        <div class="ability-cards">
+          <label class="ability-card">
+            <input type="radio" name="abilityLevel" value="beginner" checked>
+            <div class="ability-card-inner">
+              <span class="ability-name">Beginner</span>
+              <span class="ability-desc">Untrained swimmer or returning after an extended break from the sport</span>
+              <span class="ability-badge badge-beginner">New / Returning</span>
+            </div>
+          </label>
+          <label class="ability-card">
+            <input type="radio" name="abilityLevel" value="advanced">
+            <div class="ability-card-inner">
+              <span class="ability-name">Advanced</span>
+              <span class="ability-desc">Regular swimmer, competitive masters athlete, or triathlete finishing in the top 20% in the swim</span>
+              <span class="ability-badge badge-advanced">Top 20%</span>
+            </div>
+          </label>
+          <label class="ability-card">
+            <input type="radio" name="abilityLevel" value="elite">
+            <div class="ability-card-inner">
+              <span class="ability-name">Elite</span>
+              <span class="ability-desc">Competitive swimmer or elite triathlete who exits the water at the front of the field</span>
+              <span class="ability-badge badge-elite">Front of Field</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Test Type / Pool Type Toggles -->
+      <div class="toggle-row">
+        <div>
+          <div class="input-group" style="margin-bottom:6px;"><label>Test Type</label></div>
+          <div class="toggle-group" id="testToggle">
+            <input type="radio" name="testType" id="test100" value="100" checked>
+            <label for="test100">100 / 500</label>
+            <input type="radio" name="testType" id="test200" value="200">
+            <label for="test200">200 / 800</label>
+          </div>
+        </div>
+        <div>
+          <div class="input-group" style="margin-bottom:6px;"><label>Pool Type</label></div>
+          <div class="toggle-group" id="poolToggle">
+            <input type="radio" name="poolType" id="poolYards" value="yards" checked>
+            <label for="poolYards">Yards</label>
+            <input type="radio" name="poolType" id="poolMeters" value="meters">
+            <label for="poolMeters">Meters</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Inputs -->
+      <div class="input-grid" id="inputFields">
+        <div class="input-group">
+          <label id="label1">100 Time <span class="hint">MM:SS</span></label>
+          <input type="text" id="time1" placeholder="1:45" maxlength="8" autocomplete="off">
+        </div>
+        <div class="input-group">
+          <label id="label2">500 Time <span class="hint">MM:SS</span></label>
+          <div class="input-with-btn">
+            <input type="text" id="time2" placeholder="10:00" maxlength="8" autocomplete="off">
+            <button type="button" class="btn-estimate" id="btnEstimate" title="Estimate from your short distance time">&#9889; Estimate</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <div class="btn-row">
+        <button class="btn-calculate" id="btnCalc">&#9654; Calculate Paces</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RESULTS ── -->
+  <div id="results">
+
+    <div class="test-summary" id="summaryChips"></div>
+
+    <!-- Pace Table -->
+    <div class="card">
+      <div class="card-header"><span class="icon">&#127946;</span> Your V-Zone Paces</div>
+      <div class="card-body">
+        <div class="pace-table-wrap">
+          <table class="pace-table" id="paceTable">
+            <thead>
+              <tr>
+                <th>Zone</th>
+                <th>50</th><th>75</th><th>100</th><th>125</th><th>150</th>
+                <th>175</th><th>200</th><th>250</th><th>300</th><th>400</th>
+              </tr>
+            </thead>
+            <tbody id="paceBody"></tbody>
+          </table>
+        </div>
+
+        <div id="balanceSection" class="balance-section" style="display:none;"></div>
+
+        <div class="btn-row no-print">
+          <button class="btn-print" onclick="window.print()">&#128424; Print Results</button>
+          <button class="btn-calculate" style="background:var(--steel-blue);" id="btnEdit">&#9998; Edit Inputs</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shorthand Reference -->
+    <div class="card" id="shorthandCard">
+      <div class="card-header"><span class="icon">&#128214;</span> Workout Shorthand Reference</div>
+      <div class="card-body">
+        <div class="ref-grid">
+          <div>
+            <div class="ref-section-title">Pace Zones</div>
+            <div class="ref-item"><span class="ref-abbr">V2</span><span class="ref-desc">Recovery — Easy aerobic pace; used for warm-up, cool-down, and active recovery sets</span></div>
+            <div class="ref-item"><span class="ref-abbr">V3</span><span class="ref-desc">Endurance — Steady aerobic pace; the foundation of distance training</span></div>
+            <div class="ref-item"><span class="ref-abbr">V4</span><span class="ref-desc">Threshold — Comfortably hard; at or near lactate threshold intensity</span></div>
+            <div class="ref-item"><span class="ref-abbr">V5</span><span class="ref-desc">VO2max — High intensity; builds maximal oxygen uptake capacity</span></div>
+            <div class="ref-item"><span class="ref-abbr">V6</span><span class="ref-desc">Speed — Maximal sprint efforts; develops neuromuscular power</span></div>
+
+            <div class="ref-section-title" style="margin-top:18px;">Effort-Based Paces</div>
+            <div class="ref-item"><span class="ref-abbr">VE</span><span class="ref-desc">Easy effort — used for non-freestyle sets, drills, or kick work</span></div>
+            <div class="ref-item"><span class="ref-abbr">VM</span><span class="ref-desc">Moderate effort — steady, controlled exertion</span></div>
+            <div class="ref-item"><span class="ref-abbr">VH</span><span class="ref-desc">Hard effort — near-maximum perceived exertion</span></div>
+          </div>
+          <div>
+            <div class="ref-section-title">Rest & Recovery</div>
+            <div class="ref-item"><span class="ref-abbr">RPS</span><span class="ref-desc">Rest Per Set — seconds of rest between each rep within a set (e.g. between each 50 in 8&times;50)</span></div>
+            <div class="ref-item"><span class="ref-abbr">RBB</span><span class="ref-desc">Rest Between Blocks — rest between blocks within a set (e.g. after each group of 8&times;50 in 3&times;8&times;50)</span></div>
+            <div class="ref-item"><span class="ref-abbr">RAS</span><span class="ref-desc">Rest After Set — total rest taken after the entire set before moving to the next one</span></div>
+
+            <div class="ref-section-title" style="margin-top:18px;">Stroke Types</div>
+            <div class="ref-item"><span class="ref-abbr">FREE</span><span class="ref-desc">Freestyle / Front Crawl (default if no stroke listed)</span></div>
+            <div class="ref-item"><span class="ref-abbr">BACK</span><span class="ref-desc">Backstroke</span></div>
+            <div class="ref-item"><span class="ref-abbr">BRST</span><span class="ref-desc">Breaststroke</span></div>
+            <div class="ref-item"><span class="ref-abbr">FLY</span><span class="ref-desc">Butterfly</span></div>
+            <div class="ref-item"><span class="ref-abbr">KICK</span><span class="ref-desc">Kick only (no arms)</span></div>
+            <div class="ref-item"><span class="ref-abbr">PULL</span><span class="ref-desc">Pull — arms only, no paddles</span></div>
+            <div class="ref-item"><span class="ref-abbr">PULL/PDS</span><span class="ref-desc">Pull with paddles</span></div>
+          </div>
+        </div>
+
+        <div class="example-workout">
+          <span class="label">Example: How to Read a Workout</span>
+          <strong>4 &times; 150 @V3, 15RPS, 30RAS</strong><br>
+          <span class="anno">&#8594; Swim 4 repetitions of 150 at your V3 (Endurance) pace.</span><br>
+          <span class="anno">&#8594; Take 15 seconds rest between each of the 4 reps.</span><br>
+          <span class="anno">&#8594; Take 30 seconds rest after completing all 4 before moving on.</span><br><br>
+          <strong>4 (2 &times; 25) kick @VM, 20RPS, 30RBB</strong><br>
+          <span class="anno">&#8594; 4 blocks of 2&times;25 kick at moderate effort.</span><br>
+          <span class="anno">&#8594; 20 seconds rest between each 25 within a block.</span><br>
+          <span class="anno">&#8594; 30 seconds rest between each block of 2&times;25.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<div class="site-footer">
+  V-Swim Pace Calculator &copy; Justin Trolle &bull; Reproduced for USA Triathlon Education with permission<br>
+  All pace calculations are estimates based on test performance. Adjust as needed for individual fitness.
+</div>
+
+<!-- ═══════════════ SCRIPT ═══════════════ -->
+<script>
+(function(){
+
+  // ── CONSTANTS ──
+  const DISTANCES   = [50, 75, 100, 125, 150, 175, 200, 250, 300, 400];
+  const MULTIPLIERS = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.5, 3, 4];
+
+  const SET_A = [0.1123, 0.07, 0.0421, 0.03755, 0.0341, 0.03142, 0.0295, 0.026, 0.02362, 0.0202];
+  const SET_B = [0.1436, 0.09291, 0.0734, 0.06143, 0.053, 0.04678, 0.0422, 0.039065, 0.03615, 0.0301];
+
+  const ZONES = [
+    { id:'v2', name:'V2 — Recovery',  color:'#607D8B', bg:'zone-v2', baseKey:'adjusted', factors: SET_A },
+    { id:'v3', name:'V3 — Endurance', color:'#E91E8C', bg:'zone-v3', baseKey:'adjusted', factors: SET_B },
+    { id:'v4', name:'V4 — Threshold', color:'#E31837', bg:'zone-v4', baseKey:'raw',      factors: SET_A },
+    { id:'v5', name:'V5 — VO2max',    color:'#1976D2', bg:'zone-v5', baseKey:'raw',      factors: SET_B },
+    { id:'v6', name:'V6 — Speed',     color:'#7B1FA2', bg:'zone-v6', baseKey:'speed',    factors: SET_B },
+  ];
+
+  // Ability level modifiers — fraction added to calculated zone time
+  // e.g. 0.10 = times run 10% slower (appropriate for elite swimmers with greater capacity)
+  const ABILITY_MODS = {
+    beginner: { v2: 0,    v3: 0,    v4: 0,    v5: 0,    v6: 0    },
+    advanced: { v2: 0.05, v3: 0.04, v4: 0.03, v5: 0.02, v6: 0.01 },
+    elite:    { v2: 0.10, v3: 0.08, v4: 0.06, v5: 0.04, v6: 0.02 }
+  };
+
+  // ── HELPERS ──
+  function getAbility()  { return document.querySelector('input[name="abilityLevel"]:checked').value; }
+  function getTestType() { return document.querySelector('input[name="testType"]:checked').value; }
+  function getPoolType() { return document.querySelector('input[name="poolType"]:checked').value; }
+
+  // ── LABEL UPDATES ──
+  document.querySelectorAll('input[name="testType"]').forEach(function(r) {
+    r.addEventListener('change', updateLabels);
+  });
+
+  function updateLabels() {
+    var t = getTestType();
+    if (t === '100') {
+      document.getElementById('label1').innerHTML = '100 Time <span class="hint">MM:SS</span>';
+      document.getElementById('label2').innerHTML = '500 Time <span class="hint">MM:SS</span>';
+      document.getElementById('time1').placeholder = '1:45';
+      document.getElementById('time2').placeholder = '10:00';
+    } else {
+      document.getElementById('label1').innerHTML = '200 Time <span class="hint">MM:SS</span>';
+      document.getElementById('label2').innerHTML = '800 Time <span class="hint">MM:SS</span>';
+      document.getElementById('time1').placeholder = '3:49';
+      document.getElementById('time2').placeholder = '16:28';
+    }
+  }
+
+  // ── PARSE TIME (MM:SS) ──
+  function parseTime(raw) {
+    if (!raw || raw.trim() === '') return null;
+    raw = raw.trim();
+    if (raw.includes(':')) {
+      var parts = raw.split(':');
+      var mins = parseInt(parts[0]) || 0;
+      var secs = parseInt(parts[1]) || 0;
+      if (secs >= 60 || secs < 0 || mins < 0) return null;
+      return mins * 60 + secs;
+    }
+    var n = parseInt(raw);
+    if (isNaN(n) || n <= 0) return null;
+    if (n < 60) return n;
+    return null;
+  }
+
+  // ── AUTO-FORMAT TIME INPUT ──
+  function autoFormatTime(e) {
+    var input = e.target;
+    var clean = input.value.replace(/[^\d:]/g, '');
+    if (clean.includes(':')) {
+      var parts = clean.split(':');
+      if (parts[1] && parts[1].length > 2) {
+        parts[1] = parts[1].substring(0, 2);
+        clean = parts[0] + ':' + parts[1];
+      }
+      input.value = clean;
+      return;
+    }
+    if (clean.length >= 3) {
+      var secspart = clean.slice(-2);
+      var minspart = clean.slice(0, -2);
+      clean = minspart + ':' + secspart;
+    }
+    input.value = clean;
+  }
+
+  ['time1', 'time2'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', autoFormatTime);
+  });
+
+  // ── FORMAT SECONDS → MM:SS ──
+  function fmtTime(totalSecs) {
+    if (totalSecs < 0) totalSecs = 0;
+    var mins  = Math.floor(totalSecs / 60);
+    var whole = Math.floor(totalSecs - mins * 60);
+    return (mins === 0 ? '0' : mins) + ':' + whole.toString().padStart(2, '0');
+  }
+
+  // ── ZONE TIME CALCULATION ──
+  function calcZoneTime(base, distIndex) {
+    var rawTime = base.value * MULTIPLIERS[distIndex];
+    var deg     = base.factors[distIndex];
+    return rawTime - (rawTime * deg);
+  }
+
+  // ── ESTIMATE LONG DISTANCE ──
+  document.getElementById('btnEstimate').addEventListener('click', function() {
+    var secs1 = parseTime(document.getElementById('time1').value);
+    var errEl = document.getElementById('errorMsg');
+    if (secs1 === null) {
+      errEl.textContent = 'Enter your ' + (getTestType() === '100' ? '100' : '200') + ' time first, then click Estimate.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+    var estimated = getTestType() === '100' ? secs1 * 5 * 1.25 : secs1 * 4 * 1.25;
+    var field = document.getElementById('time2');
+    field.value = fmtTime(estimated);
+    field.style.borderColor = 'var(--steel-blue)';
+    field.style.boxShadow   = '0 0 0 3px rgba(75,124,155,0.25)';
+    setTimeout(function() {
+      field.style.borderColor = '';
+      field.style.boxShadow   = '';
+    }, 1200);
+  });
+
+  // ── CALCULATE ──
+  document.getElementById('btnCalc').addEventListener('click', calculate);
+  document.getElementById('btnEdit').addEventListener('click', function() {
+    document.getElementById('inputCard').scrollIntoView({ behavior: 'smooth' });
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') calculate();
+  });
+
+  function calculate() {
+    var errEl = document.getElementById('errorMsg');
+    errEl.style.display = 'none';
+
+    var secs1 = parseTime(document.getElementById('time1').value);
+    var secs2 = parseTime(document.getElementById('time2').value);
+
+    if (secs1 === null || secs2 === null) {
+      errEl.textContent = 'Please enter valid times in MM:SS format (e.g. 1:45 for one minute forty-five seconds).';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    var testType = getTestType();
+    var ability  = getAbility();
+    var poolType = getPoolType();
+    var mods     = ABILITY_MODS[ability];
+
+    var I4, sprintTime, longTime, predicted200, predicted800;
+
+    if (testType === '100') {
+      sprintTime   = secs1;
+      longTime     = secs2;
+      predicted800 = longTime * 1.648;
+      I4           = predicted800 / 8;
+      predicted200 = sprintTime * 2.18;
+    } else {
+      sprintTime   = secs1;
+      longTime     = secs2;
+      I4           = longTime / 8;
+      predicted200 = sprintTime;
+      predicted800 = longTime;
+    }
+
+    var J4  = I4 / 0.95;
+    var CT4 = I4 / 1.037;
+
+    var bases = {
+      adjusted: { value: J4  },
+      raw:      { value: I4  },
+      speed:    { value: CT4 }
+    };
+
+    // Build pace table
+    var tbody = document.getElementById('paceBody');
+    tbody.innerHTML = '';
+
+    ZONES.forEach(function(zone) {
+      var base = { value: bases[zone.baseKey].value, factors: zone.factors };
+      var mod  = mods[zone.id];
+      var tr   = document.createElement('tr');
+      tr.className = zone.bg;
+
+      var tdName = document.createElement('td');
+      tdName.innerHTML = '<span class="zone-dot" style="background:' + zone.color + '"></span>' + zone.name;
+      tr.appendChild(tdName);
+
+      for (var i = 0; i < DISTANCES.length; i++) {
+        var td      = document.createElement('td');
+        var rawTime = calcZoneTime(base, i);
+        var adjTime = rawTime * (1 + mod);
+        var pp100   = adjTime / (DISTANCES[i] / 100);
+        td.innerHTML = fmtTime(adjTime) + '<span class="pace-per-100">' + fmtTime(pp100) + '/100</span>';
+        tr.appendChild(td);
+      }
+      tbody.appendChild(tr);
+    });
+
+    // Summary chips
+    var abilityLabel  = ability.charAt(0).toUpperCase() + ability.slice(1);
+    var abilityColors = { beginner: '#2E7D32', advanced: '#1565C0', elite: '#E65100' };
+    var chipsEl       = document.getElementById('summaryChips');
+    var chipsHTML     = '';
+
+    if (testType === '100') {
+      chipsHTML += '<div class="summary-chip"><span>100 Sprint:</span> '    + fmtTime(secs1) + '</div>';
+      chipsHTML += '<div class="summary-chip"><span>500 Time:</span> '      + fmtTime(secs2) + '</div>';
+      chipsHTML += '<div class="summary-chip"><span>Base Pace/100:</span> ' + fmtTime(I4)    + '</div>';
+      chipsHTML += '<div class="summary-chip" style="background:var(--steel-blue);"><span>Predicted 200:</span> ' + fmtTime(predicted200) + '</div>';
+      chipsHTML += '<div class="summary-chip" style="background:var(--steel-blue);"><span>Predicted 800:</span> ' + fmtTime(predicted800) + '</div>';
+    } else {
+      chipsHTML += '<div class="summary-chip"><span>200 Time:</span> '      + fmtTime(secs1) + '</div>';
+      chipsHTML += '<div class="summary-chip"><span>800 Time:</span> '      + fmtTime(secs2) + '</div>';
+      chipsHTML += '<div class="summary-chip"><span>Base Pace/100:</span> ' + fmtTime(I4)    + '</div>';
+    }
+
+    chipsHTML += '<div class="summary-chip" style="background:' + abilityColors[ability] + ';">' + abilityLabel + ' Level</div>';
+    chipsHTML += '<div class="summary-chip" style="background:var(--dark-blue);"><span>Pool:</span> ' + poolType.charAt(0).toUpperCase() + poolType.slice(1) + '</div>';
+    chipsEl.innerHTML = chipsHTML;
+
+    // Balance analysis — uses original unmodified base values
+    var sprintPred200 = testType === '100' ? secs1 * 2.18 : secs1;
+    var endurPred200  = CT4 * 2 * (1 - 0.0422);
+    var balDiff       = endurPred200 - sprintPred200;
+    var balPct        = Math.abs(balDiff / sprintPred200) * 100;
+    var absDiffSecs   = Math.abs(balDiff);
+    var shortLabel    = testType === '100' ? 'Your 100 Sprint' : 'Your 200 Sprint';
+    var longLabel     = testType === '100' ? 'Your 500 Endurance' : 'Your 800 Endurance';
+
+    var balanceEl = document.getElementById('balanceSection');
+    var balHTML   = '<div class="balance-title">Aerobic / Anaerobic Balance Analysis</div>';
+    balHTML += '<div class="balance-grid">';
+    balHTML += '<div class="balance-card predicted"><div class="balance-card-label">Predicted 200 Based on ' + shortLabel + ' Should Be</div><div class="balance-card-value">' + fmtTime(sprintPred200) + '</div></div>';
+    balHTML += '<div class="balance-card actual"><div class="balance-card-label">Predicted 200 Based on ' + longLabel + ' Should Be</div><div class="balance-card-value">' + fmtTime(endurPred200) + '</div></div>';
+    balHTML += '</div>';
+
+    if (balPct <= 3) {
+      balHTML += '<div class="balance-verdict verdict-balanced"><strong>&#9989; Balanced</strong> — Based on your sprint and endurance data, both predict nearly the same 200 time (within ' + balPct.toFixed(1) + '%). Your aerobic and anaerobic systems are well-balanced. Keep up the current training mix.</div>';
+    } else if (balDiff > 0) {
+      balHTML += '<div class="balance-verdict verdict-speed"><strong>&#9888; Speed-Dominant (' + fmtTime(absDiffSecs) + ' gap, ' + balPct.toFixed(1) + '%)</strong> — Your sprint predicts a faster 200 than your endurance supports. Your anaerobic speed is more developed than your aerobic conditioning.<br><strong>Focus areas:</strong> base conditioning, strength endurance, and longer aerobic sets.</div>';
+    } else {
+      balHTML += '<div class="balance-verdict verdict-endurance"><strong>&#9888; Endurance-Dominant (' + fmtTime(absDiffSecs) + ' gap, ' + balPct.toFixed(1) + '%)</strong> — Your endurance predicts a faster 200 than your sprint supports. Your aerobic conditioning is stronger than your speed and power.<br><strong>Focus areas:</strong> speed work, speed endurance, and short power development.</div>';
+    }
+
+    balanceEl.innerHTML = balHTML;
+    balanceEl.style.display = 'block';
+
+    var resultsEl = document.getElementById('results');
+    resultsEl.classList.add('visible');
+    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── INIT ──
+  updateLabels();
+
+})();
+</script>
+
+</body>
+</html>
