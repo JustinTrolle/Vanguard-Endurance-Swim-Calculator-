@@ -509,6 +509,40 @@
   .verdict-speed     { background: #FFF3E0; border: 1px solid #FFCC80; color: #E65100; }
   .verdict-endurance { background: #E3F2FD; border: 1px solid #90CAF9; color: #1565C0; }
 
+  /* ── STROKE COUNT ANALYSIS ── */
+  .stroke-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .balance-card.neutral { background: #F0F4F8; border: 1px solid #D0D8E0; }
+  .balance-card.neutral .balance-card-label,
+  .balance-card.neutral .balance-card-value { color: var(--usa-navy); }
+  .balance-card.good { background: #E8F5E9; border: 1px solid #A5D6A7; }
+  .balance-card.good .balance-card-label,
+  .balance-card.good .balance-card-value { color: #2E7D32; }
+  .verdict-good  { background: #E8F5E9; border: 1px solid #A5D6A7; color: #2E7D32; }
+  .verdict-watch { background: #FFF3E0; border: 1px solid #FFCC80; color: #E65100; }
+  .verdict-info  { background: #E3F2FD; border: 1px solid #90CAF9; color: #1565C0; }
+  .balance-verdict p { margin: 0 0 8px; }
+  .balance-verdict p:last-child { margin-bottom: 0; }
+  .stroke-flag {
+    margin-top: 10px;
+    padding: 10px 14px;
+    border-left: 4px solid var(--steel-blue);
+    background: #F0F4F8;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.88rem;
+  }
+  .stroke-footnote {
+    margin-top: 12px;
+    font-size: 0.78rem;
+    color: #777;
+    font-style: italic;
+    line-height: 1.5;
+  }
+
   /* ── SHORTHAND REFERENCE ── */
   .ref-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
   .ref-section-title {
@@ -569,31 +603,82 @@
     margin-top: 20px;
   }
 
-  /* ── PRINT ── */
+  /* ── PRINT ──
+     Page 1: header + test summary + V-Zone pace table + balance analysis (LANDSCAPE)
+     Page 2: Workout Shorthand Reference + footer (PORTRAIT)
+  */
+  @page printout  { size: letter landscape; margin: 0.4in; }
+  @page shorthand { size: letter portrait;  margin: 0.5in; }
+
   @media print {
-    body { background: white; font-size: 11pt; }
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    html, body { background: white; font-size: 10.5pt; }
+
+    /* Page assignments */
+    .site-header, .container { page: printout; }
+    #shorthandCard           { page: shorthand; break-before: page; }
+    .site-footer             { page: shorthand; }
+
+    /* Header */
     .site-header { position: static; box-shadow: none; }
-    .header-inner { padding: 10px 0; }
-    .header-logo { height: 40px; }
-    .container { padding: 12px 0; }
-    .card { box-shadow: none; border: 1px solid #DDD; break-inside: avoid; margin-bottom: 16px; }
-    .card-header { padding: 8px 14px; font-size: 0.9rem; }
-    .card-body { padding: 14px; }
-    #inputCard { display: none; }
-    .btn-row { display: none; }
+    .header-inner { padding: 6px 0; max-width: none; }
+    .header-logo { height: 38px; }
+    .header-title { font-size: 1.35rem; }
+    .header-subtitle { font-size: 0.7rem; }
+
+    /* Layout */
+    .container { padding: 8px 0 0; max-width: none; }
+    .card { box-shadow: none; border: 1px solid #DDD; margin-bottom: 10px; }
+    .card-header { padding: 6px 14px; font-size: 0.85rem; }
+    .card-body { padding: 10px 14px; }
+
+    /* Hide interactive pieces */
+    #inputCard { display: none !important; }
+    .btn-row { display: none !important; }
     .no-print { display: none !important; }
-    .pace-table-wrap { overflow: visible; margin: 0; padding: 0; }
-    table.pace-table { min-width: auto; font-size: 0.78rem; }
-    table.pace-table thead th { padding: 6px 4px; font-size: 0.72rem; }
-    table.pace-table tbody td { padding: 5px 4px; font-size: 0.8rem; }
-    .pace-per-100 { font-size: 0.65rem; }
-    .ref-grid { gap: 14px; }
-    .balance-section { padding: 14px; }
-    .balance-grid { gap: 8px; }
-    .test-summary .summary-chip { padding: 4px 10px; font-size: 0.82rem; }
-    .site-footer { font-size: 0.7rem; padding: 10px 0; }
-    #results.visible { display: block !important; }
     .ability-section { display: none; }
+    #results.visible { display: block !important; animation: none; }
+
+    /* Page 1: summary chips */
+    .test-summary { gap: 8px; margin-bottom: 10px; }
+    .test-summary .summary-chip { padding: 4px 10px; font-size: 0.8rem; }
+
+    /* Page 1: pace table */
+    .pace-table-wrap { overflow: visible; margin: 0; padding: 0; }
+    table.pace-table { min-width: 0; width: 100%; font-size: 0.8rem; }
+    table.pace-table thead th { padding: 5px 4px; font-size: 0.72rem; }
+    table.pace-table tbody td { padding: 5px 4px; font-size: 0.85rem; }
+    table.pace-table tbody tr:hover { filter: none; }
+    .pace-per-100 { font-size: 0.65rem; }
+
+    /* Page 1: balance analysis */
+    .balance-section { margin-top: 10px; padding: 10px 14px; break-inside: avoid; }
+    .balance-title { margin-bottom: 6px; }
+    .balance-grid { gap: 8px; margin-bottom: 8px; }
+    .balance-card { padding: 6px 10px; }
+    .balance-card-value { font-size: 1.4rem; }
+    .balance-verdict { padding: 8px 12px; font-size: 0.82rem; }
+    .balance-verdict p { margin-bottom: 4px; }
+    #strokeSection { break-before: page; margin-top: 0; }
+    .stroke-grid { gap: 8px; margin-bottom: 10px; }
+    .stroke-flag { margin-top: 6px; padding: 5px 10px; font-size: 0.78rem; }
+    .stroke-footnote { margin-top: 6px; font-size: 0.68rem; }
+
+    /* Page 2: shorthand reference (portrait) */
+    #shorthandCard { border: none; margin-bottom: 0; }
+    #shorthandCard .card-header { padding: 8px 14px; font-size: 1rem; }
+    #shorthandCard .card-body { padding: 14px 0 0; }
+    .ref-grid { gap: 20px; }
+    .ref-item { padding: 5px 0; }
+    .ref-abbr { min-width: 66px; }
+    .ref-desc { font-size: 0.82rem; }
+    .example-workout { padding: 12px 14px; font-size: 0.82rem; line-height: 1.6; }
+
+    .site-footer { font-size: 0.7rem; padding: 10px 0 0; margin-top: 14px; }
   }
 
   /* ── RESPONSIVE ── */
@@ -608,6 +693,7 @@
     .ref-grid { grid-template-columns: 1fr; }
     .toggle-group label { padding: 8px 14px; font-size: 0.85rem; min-width: 70px; }
     .balance-grid { grid-template-columns: 1fr; }
+    .stroke-grid { grid-template-columns: 1fr 1fr; }
     .ability-cards { grid-template-columns: 1fr; }
     table.pace-table { font-size: 0.8rem; }
     table.pace-table tbody td { padding: 7px 5px; font-size: 0.82rem; }
@@ -653,6 +739,7 @@
           <li><strong>Long distance (500 or 800):</strong> Swim at the fastest pace you can sustain for the full distance — hard but controlled.</li>
         </ul>
         <p>Accurate test times are essential for reliable pace zones. Long-course athletes (70.3 / Ironman) are encouraged to use the 200/800 test for better race-specific data, while short-course athletes may prefer the 100/500.</p>
+        <p><strong>Count your strokes (optional):</strong> During each test swim, count your strokes on every length. Count each time a hand enters the water. Add them up and divide by the number of lengths to get your <strong>average strokes per length (SPL)</strong> for the short and the long swim. Enter both to get stroke count feedback on top of your pace zones, or leave both blank to skip it. Count per 25 yard or 25 meter length. In a 50 m pool, use half of your count per length.</p>
         <p><strong>New to swimming?</strong> If you know your short distance time but haven't yet completed the full test, use the <strong>&#9889; Estimate</strong> button next to the longer distance field. It will calculate an approximate time based on your short distance multiplied out and adding 25%. This is a starting point — completing the full test will always give you more accurate pace zones.</p>
       </div>
 
@@ -724,6 +811,25 @@
         </div>
       </div>
 
+      <div class="input-grid" id="strokeFields" style="margin-top:20px;">
+        <div class="input-group">
+          <label id="labelSpl1">100 Avg Strokes Per Length <span class="hint">per 25 length, optional</span></label>
+          <input type="number" id="spl1" inputmode="decimal" min="6" max="45" step="0.5" placeholder="18" autocomplete="off">
+        </div>
+        <div class="input-group">
+          <label id="labelSpl2">500 Avg Strokes Per Length <span class="hint">per 25 length, optional</span></label>
+          <input type="number" id="spl2" inputmode="decimal" min="6" max="45" step="0.5" placeholder="16" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="input-grid" style="margin-top:20px;">
+        <div class="input-group">
+          <label id="labelBreakout">Distance Out on Push Off and Turns Before First Stroke <span class="hint" id="breakoutHint">yards, optional</span></label>
+          <input type="number" id="breakout" inputmode="decimal" min="0" max="15" step="0.5" placeholder="5" autocomplete="off">
+          <span class="hint">How far off the wall you normally surface and take your first stroke. Used to remove the push-off from distance per stroke.</span>
+        </div>
+      </div>
+
       <div class="error-msg" id="errorMsg"></div>
 
       <div class="btn-row">
@@ -755,6 +861,7 @@
         </div>
 
         <div id="balanceSection" class="balance-section" style="display:none;"></div>
+        <div id="strokeSection" class="balance-section" style="display:none;"></div>
 
         <div class="btn-row no-print">
           <button class="btn-print" onclick="window.print()">&#128424; Print Results</button>
@@ -857,6 +964,13 @@
     r.addEventListener('change', updateLabels);
   });
 
+  document.querySelectorAll('input[name="poolType"]').forEach(function(r) {
+    r.addEventListener('change', updateBreakoutUnit);
+  });
+  function updateBreakoutUnit() {
+    document.getElementById('breakoutHint').textContent = (getPoolType() === 'yards' ? 'yards' : 'meters') + ', optional';
+  }
+
   function updateLabels() {
     var t = getTestType();
     if (t === '100') {
@@ -864,11 +978,15 @@
       document.getElementById('label2').innerHTML = '500 Time <span class="hint">MM:SS</span>';
       document.getElementById('time1').placeholder = '1:45';
       document.getElementById('time2').placeholder = '10:00';
+      document.getElementById('labelSpl1').innerHTML = '100 Avg Strokes Per Length <span class="hint">per 25 length, optional</span>';
+      document.getElementById('labelSpl2').innerHTML = '500 Avg Strokes Per Length <span class="hint">per 25 length, optional</span>';
     } else {
       document.getElementById('label1').innerHTML = '200 Time <span class="hint">MM:SS</span>';
       document.getElementById('label2').innerHTML = '800 Time <span class="hint">MM:SS</span>';
       document.getElementById('time1').placeholder = '3:49';
       document.getElementById('time2').placeholder = '16:28';
+      document.getElementById('labelSpl1').innerHTML = '200 Avg Strokes Per Length <span class="hint">per 25 length, optional</span>';
+      document.getElementById('labelSpl2').innerHTML = '800 Avg Strokes Per Length <span class="hint">per 25 length, optional</span>';
     }
   }
 
@@ -950,6 +1068,90 @@
     }, 1200);
   });
 
+  // ── NUMBER FORMAT (one decimal, no trailing .0) ──
+  function fmtN(n) { return (Math.round(n * 10) / 10).toString(); }
+  function fmtSigned(n) {
+    var r = Math.round(n * 10) / 10;
+    return (r > 0 ? '+' : '') + r.toString();
+  }
+
+  // ── STROKE COUNT ANALYSIS ──
+  // Compares average strokes per length (SPL) on the short and long test swims.
+  // Thresholds are a coaching synthesis of the USAT knowledge base and published research.
+  function buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout) {
+    var shortD = testType === '100' ? 100 : 200;
+    var longD  = testType === '100' ? 500 : 800;
+    var pace1  = secs1 / (shortD / 100);
+    var pace2  = secs2 / (longD / 100);
+    var d      = spl2 - spl1;
+    var unit   = poolType === 'yards' ? 'yd' : 'm';
+    // Distance per stroke: swimming portion of the length (25 minus the distance out before the first stroke) divided by strokes
+    var swimLen = 25 - breakout;
+    var dps1   = swimLen / spl1;
+    var dps2   = swimLen / spl2;
+    var paceTxt = fmtTime(pace1) + ' to ' + fmtTime(pace2) + ' per 100';
+
+    var tier, cardClass, verdictClass, head, body, focus, together = '';
+
+    if (d >= 2) {
+      tier = 'creep'; cardClass = 'actual'; verdictClass = 'verdict-watch';
+      head  = '&#9888; Stroke Count Creep (' + fmtSigned(d) + ' per length)';
+      body  = 'Your count rises from ' + fmtN(spl1) + ' to ' + fmtN(spl2) + ' per length on the ' + longD + ', and your pace slows (' + paceTxt + '). A higher count at a slower pace is the classic fatigue pattern. The catch gets shallower, rotation fades, and the elbow starts to drop toward the body in the push phase (blading). It points to technique giving way before the effort ends.';
+      focus = '<strong>Focus areas:</strong> holding your count under fatigue. Use SPL-controlled sets (for example 6 to 8 &times; 100 holding within 1 stroke of your first rep), rotation and catch drills late in sets, and drill with feedback before adding volume. Re-test and count every length. Creep that starts early points to technique or a pace that is too hot. Creep that starts late points to durability.';
+    } else if (d >= 0.5) {
+      tier = 'slight'; cardClass = 'predicted'; verdictClass = 'verdict-info';
+      head  = '&#8505; Slight Rise (' + fmtSigned(d) + ' per length)';
+      body  = 'Your count edges up from ' + fmtN(spl1) + ' to ' + fmtN(spl2) + ' per length while your pace slows (' + paceTxt + '). That is inside the normal range, but it is the first sign of creep, so keep an eye on it as your sets get longer.';
+      focus = '<strong>Focus areas:</strong> add a count check to longer aerobic sets and flag any rise of about 2 or more at a constant pace.';
+    } else if (d >= -2) {
+      tier = 'hold'; cardClass = 'good'; verdictClass = 'verdict-good';
+      head  = '&#9989; Stroke Count Holds (' + (Math.abs(d) < 0.05 ? 'no change' : fmtSigned(d) + ' per length') + ')';
+      body  = 'Your count ' + (Math.abs(d) < 0.05 ? 'stays at ' + fmtN(spl1) : 'goes from ' + fmtN(spl1) + ' to ' + fmtN(spl2)) + ' per length as your pace settles into the ' + longD + ' (' + paceTxt + '). You are holding your length when fatigue builds, which is a sign of efficient, durable mechanics.';
+      focus = '<strong>Focus areas:</strong> hold it, then test it in open water. Open water often rewards a slightly higher rate and a slightly deeper entry over maximum distance per stroke, so aim for a cadence you can hold under fatigue.';
+    } else if (balState === 'speed') {
+      tier = 'dropslow'; cardClass = 'actual'; verdictClass = 'verdict-watch';
+      head  = '&#9888; Count Drops While the Long Swim Lags (' + fmtSigned(d) + ' per length)';
+      body  = 'Your count falls from ' + fmtN(spl1) + ' to ' + fmtN(spl2) + ' per length, but your ' + longD + ' is slower than your sprint predicts. A falling count with a slowing pace usually means over-gliding and dead spots, not a real efficiency gain.';
+      focus = '<strong>Focus areas:</strong> tempo trainer sets, stroke timing, and drills such as "touch and go" to keep momentum between strokes. The USAT knowledge base target is a glide near 0.1 seconds, where many swimmers sit at 0.4 to 0.7 seconds.';
+    } else {
+      tier = 'dropfast'; cardClass = 'predicted'; verdictClass = 'verdict-info';
+      head  = '&#8505; Sprint Count Runs High (' + fmtSigned(d) + ' per length)';
+      body  = 'Your count is ' + fmtN(spl1) + ' on the ' + shortD + ' and ' + fmtN(spl2) + ' on the ' + longD + '. Some drop is normal because turnover rises at sprint pace, but a gap this size suggests your stroke shortens when you speed up. Your long swim shows good length.';
+      focus = '<strong>Focus areas:</strong> length at speed. Swim fast 25s and 50s while holding your count within 2 or 3 strokes of your long swim count, and work on entry timing and rotation at higher rates. A higher rate with a maintained or reduced count is the goal.';
+    }
+
+    if (tier === 'creep') {
+      if (balState === 'speed')          together = 'Your pace balance and your stroke count agree. The long swim is the weak link, so build aerobic base and durability together and keep the count honest while you do.';
+      else if (balState === 'endurance') together = 'Your aerobic fitness is ahead of your speed, yet your count still creeps. That points to mechanics and pacing rather than conditioning, so clean up technique under fatigue alongside the speed work above.';
+      else                               together = 'Your aerobic and anaerobic balance looks good, so the creep is more likely mechanics than fitness. Technique under fatigue is the priority.';
+    } else if (tier === 'slight' || tier === 'hold') {
+      if (balState === 'speed')          together = 'Your count holds but your long swim lags your sprint. That points to aerobic conditioning rather than technique, so build base while keeping the count steady.';
+      else if (balState === 'endurance') together = 'Your mechanics hold up and your limiter is speed. Build power and speed endurance while protecting your length.';
+      else                               together = 'Your pace balance and your stroke count both look good. Keep the current training mix and re-test every few weeks.';
+    }
+
+    var html = '<div class="balance-title">Stroke Count Analysis (Strokes Per Length)</div>';
+    html += '<div class="stroke-grid">';
+    html += '<div class="balance-card neutral"><div class="balance-card-label">Your ' + shortD + ' Avg Strokes Per Length</div><div class="balance-card-value">' + fmtN(spl1) + '</div></div>';
+    html += '<div class="balance-card neutral"><div class="balance-card-label">Your ' + longD + ' Avg Strokes Per Length</div><div class="balance-card-value">' + fmtN(spl2) + '</div></div>';
+    html += '<div class="balance-card ' + cardClass + '"><div class="balance-card-label">Change From Short to Long Swim</div><div class="balance-card-value">' + fmtSigned(d) + '</div></div>';
+    html += '<div class="balance-card neutral"><div class="balance-card-label">Distance Per Stroke (' + unit + (breakout > 0 ? ', after ' + fmtN(breakout) + ' ' + unit + ' out' : ', push-off included') + ')</div><div class="balance-card-value">' + dps1.toFixed(2) + ' &rarr; ' + dps2.toFixed(2) + '</div></div>';
+    html += '</div>';
+
+    html += '<div class="balance-verdict ' + verdictClass + '"><p><strong>' + head + '</strong></p><p>' + body + '</p><p>' + focus + '</p>';
+    if (together) html += '<p><strong>Putting it together:</strong> ' + together + '</p>';
+    html += '</div>';
+
+    if (spl2 > 20) {
+      html += '<div class="stroke-flag"><strong>Above 20 strokes per length:</strong> athletes tend to stop catching the water as effectively and stop rotating, which creates increased drag. It also places additional strain on the smaller muscle groups and takes load away from the larger, more fatigue-resistant muscle groups.</div>';
+    } else if (spl2 < 12) {
+      html += '<div class="stroke-flag"><strong>Below 12 per length:</strong> this is under the typical range. It can simply reflect a long arm span, but if your pace is lagging, check for over-gliding and dead spots.</div>';
+    }
+
+    html += '<div class="stroke-footnote">Typical targets in the USAT knowledge base are 12 to 17 strokes per 25 yards and 15 to 18 per 25 meters. Individualize by arm span rather than chasing one number. The cutoffs above are a coaching synthesis of the knowledge base and published research, not published standards. Stroke count is one marker, so confirm with pace and stroke rate before diagnosing from count alone. ' + (breakout > 0 ? 'Distance per stroke is (25 minus ' + fmtN(breakout) + ') divided by your stroke count, so the push off the wall does not bias it.' : 'Distance per stroke is 25 divided by your stroke count and includes the push off the wall. Enter the distance out before your first stroke to remove it.') + '</div>';
+    return html;
+  }
+
   // ── CALCULATE ──
   document.getElementById('btnCalc').addEventListener('click', calculate);
   document.getElementById('btnEdit').addEventListener('click', function() {
@@ -970,6 +1172,36 @@
       errEl.textContent = 'Please enter valid times in MM:SS format (e.g. 1:45 for one minute forty-five seconds).';
       errEl.style.display = 'block';
       return;
+    }
+
+    // Optional stroke count inputs: both or neither
+    var splRaw1 = document.getElementById('spl1').value.trim();
+    var splRaw2 = document.getElementById('spl2').value.trim();
+    var spl1 = null, spl2 = null;
+    if (splRaw1 !== '' || splRaw2 !== '') {
+      spl1 = parseFloat(splRaw1);
+      spl2 = parseFloat(splRaw2);
+      if (isNaN(spl1) || isNaN(spl2)) {
+        errEl.textContent = 'To get stroke count feedback, enter your average strokes per length for both the short and the long swim. Leave both blank to skip it.';
+        errEl.style.display = 'block';
+        return;
+      }
+      if (spl1 < 6 || spl1 > 45 || spl2 < 6 || spl2 > 45) {
+        errEl.textContent = 'Average strokes per length should be between 6 and 45 for a 25 yard or 25 meter length. In a 50 m pool, use half of your count per length.';
+        errEl.style.display = 'block';
+        return;
+      }
+    }
+
+    var breakRaw = document.getElementById('breakout').value.trim();
+    var breakout = 0;
+    if (breakRaw !== '') {
+      breakout = parseFloat(breakRaw);
+      if (isNaN(breakout) || breakout < 0 || breakout > 15) {
+        errEl.textContent = 'Distance out before your first stroke should be between 0 and 15 yards or meters.';
+        errEl.style.display = 'block';
+        return;
+      }
     }
 
     var testType = getTestType();
@@ -1045,6 +1277,10 @@
       chipsHTML += '<div class="summary-chip"><span>Base Pace/100:</span> ' + fmtTime(I4)    + '</div>';
     }
 
+    if (spl1 !== null) {
+      chipsHTML += '<div class="summary-chip" style="background:var(--steel-blue);"><span>Avg SPL:</span> ' + fmtN(spl1) + ' / ' + fmtN(spl2) + '</div>';
+    }
+
     chipsHTML += '<div class="summary-chip" style="background:' + abilityColors[ability] + ';">' + abilityLabel + ' Level</div>';
     chipsHTML += '<div class="summary-chip" style="background:var(--dark-blue);"><span>Pool:</span> ' + poolType.charAt(0).toUpperCase() + poolType.slice(1) + '</div>';
     chipsEl.innerHTML = chipsHTML;
@@ -1076,6 +1312,17 @@
     balanceEl.innerHTML = balHTML;
     balanceEl.style.display = 'block';
 
+    // Stroke count analysis
+    var strokeEl = document.getElementById('strokeSection');
+    if (spl1 !== null) {
+      var balState = balPct <= 3 ? 'balanced' : (balDiff > 0 ? 'speed' : 'endurance');
+      strokeEl.innerHTML = buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout);
+      strokeEl.style.display = 'block';
+    } else {
+      strokeEl.innerHTML = '';
+      strokeEl.style.display = 'none';
+    }
+
     var resultsEl = document.getElementById('results');
     resultsEl.classList.add('visible');
     resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1083,6 +1330,7 @@
 
   // ── INIT ──
   updateLabels();
+  updateBreakoutUnit();
 
 })();
 </script>
