@@ -346,6 +346,154 @@
     margin-top: 16px;
   }
 
+  /* ── POOL DATA ACCORDION ── */
+  .pool-accordion {
+    margin-top: 20px;
+    border: 1px solid #D0D8E0;
+    border-radius: 8px;
+    background: #F8FAFC;
+    overflow: hidden;
+  }
+  .pool-accordion summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .pool-accordion summary::-webkit-details-marker { display: none; }
+  .pool-accordion summary:hover { background: #EEF3F7; }
+  .accordion-chevron {
+    flex-shrink: 0;
+    width: 10px; height: 10px;
+    border-right: 3px solid var(--usa-navy);
+    border-bottom: 3px solid var(--usa-navy);
+    transform: rotate(-45deg);
+    transition: transform 0.2s;
+    margin: 0 4px 0 2px;
+  }
+  .pool-accordion[open] .accordion-chevron { transform: rotate(45deg); }
+  .accordion-title-wrap { display: flex; flex-direction: column; gap: 2px; }
+  .accordion-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+    line-height: 1.2;
+  }
+  .accordion-sub {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #777;
+    line-height: 1.3;
+  }
+  .accordion-body { padding: 4px 18px 20px; border-top: 1px solid #E2E8F0; }
+
+  /* ── SELECTS ── */
+  select {
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    padding: 12px 40px 12px 16px;
+    border: 2px solid var(--light-gray);
+    border-radius: 8px;
+    outline: none;
+    color: var(--usa-navy);
+    background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%230C2340' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;
+    appearance: none; -webkit-appearance: none;
+    width: 100%;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  select:focus { border-color: var(--steel-blue); box-shadow: 0 0 0 3px rgba(75,124,155,0.15); }
+
+  /* ── SLIDERS ── */
+  .slider-group { display: flex; flex-direction: column; gap: 8px; }
+  .slider-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .slider-head label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--usa-navy);
+  }
+  .slider-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--usa-red);
+    letter-spacing: 0.04em;
+    min-width: 2.2em;
+    text-align: right;
+  }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 100%; height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #F8C8D0 0%, #D6D6D6 50%, #BFD7E6 100%);
+    outline: none;
+    margin: 4px 0;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--usa-navy);
+    border: 3px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--usa-navy);
+    border: 3px solid var(--white);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    cursor: pointer;
+  }
+  .slider-ends {
+    display: flex; justify-content: space-between;
+    font-size: 0.78rem; color: #777; gap: 12px;
+  }
+  .slider-ends span:last-child { text-align: right; }
+  .slider-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; margin-top: 20px; }
+  .auto-note {
+    font-size: 0.82rem; color: var(--steel-blue); font-weight: 600; margin-top: 4px;
+  }
+
+  /* ── OPEN WATER RESULTS ── */
+  .ow-hero {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .ow-hero .balance-card-value { font-size: 2.3rem; }
+  .ledger { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+  .ledger th {
+    text-align: left;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600; font-size: 0.8rem;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--white); background: var(--usa-navy);
+    padding: 8px 12px;
+  }
+  .ledger th:not(:first-child), .ledger td:not(:first-child) { text-align: right; white-space: nowrap; }
+  .ledger td { padding: 8px 12px; border-bottom: 1px solid #EEE; font-variant-numeric: tabular-nums; }
+  .ledger td .sub { display: block; font-size: 0.76rem; color: #888; font-weight: 400; }
+  .ledger tr.total td { font-weight: 700; background: #F0F4F8; border-top: 2px solid var(--usa-navy); font-size: 1rem; }
+  .ledger .pos { color: var(--usa-red); font-weight: 700; }
+  .ledger .neg { color: #2E7D32; font-weight: 700; }
+  .ow-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+  @media (max-width: 768px) {
+    .slider-grid, .ow-two-col { grid-template-columns: 1fr; }
+    .ow-hero { grid-template-columns: 1fr; }
+  }
+
   /* ── ERROR ── */
   .error-msg {
     background: #FFF3F3;
@@ -603,12 +751,51 @@
     margin-top: 20px;
   }
 
+  /* ── PRINT SELECTION CHECKBOX (in card banners) ── */
+  .print-check {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 500;
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.8);
+    white-space: nowrap;
+    user-select: none;
+  }
+  .print-check:hover { color: var(--white); }
+  .print-check input {
+    appearance: none; -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border: 2px solid rgba(255,255,255,0.7);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    margin: 0;
+    flex-shrink: 0;
+  }
+  .print-check input:checked { background: var(--usa-red); border-color: var(--usa-red); }
+  .print-check input:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px; top: 1px;
+    width: 5px; height: 10px;
+    border: solid var(--white);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .print-check input:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
   /* ── PRINT ──
-     Page 1: header + test summary + V-Zone pace table + balance analysis (LANDSCAPE)
-     Page 2: Workout Shorthand Reference + footer (PORTRAIT)
+     Every section with its banner checkbox ticked prints on its own portrait page.
+     Unticked sections are left out. The site header prints once, above the first section.
   */
-  @page printout  { size: letter landscape; margin: 0.4in; }
-  @page shorthand { size: letter portrait;  margin: 0.5in; }
+  @page { size: letter portrait; margin: 0.5in; }
 
   @media print {
     * {
@@ -617,11 +804,6 @@
     }
 
     html, body { background: white; font-size: 10.5pt; }
-
-    /* Page assignments */
-    .site-header, .container { page: printout; }
-    #shorthandCard           { page: shorthand; break-before: page; }
-    .site-footer             { page: shorthand; }
 
     /* Header */
     .site-header { position: static; box-shadow: none; }
@@ -636,12 +818,33 @@
     .card-header { padding: 6px 14px; font-size: 0.85rem; }
     .card-body { padding: 10px 14px; }
 
+    /* Section selection: only ticked cards print, each starting a new page */
+    .printable:not(.print-on) { display: none !important; }
+    .printable.print-on { break-before: page; }
+    .printable.print-on.print-first { break-before: auto; }
+    #results:not(.visible) { display: none !important; }
+    #results.visible { display: block !important; animation: none; }
+    .test-summary:not(.print-on) { display: none !important; }
+    .test-summary.print-on { break-before: page; }
+    .test-summary.print-on.print-first { break-before: auto; }
+    #paceCard.print-on { break-before: auto; }
+
     /* Hide interactive pieces */
-    #inputCard { display: none !important; }
     .btn-row { display: none !important; }
     .no-print { display: none !important; }
-    .ability-section { display: none; }
-    #results.visible { display: block !important; animation: none; }
+    .print-check { display: none !important; }
+    .error-msg { display: none !important; }
+    .btn-estimate { display: none !important; }
+
+    /* Input card, when selected */
+    #inputCard .protocol-info { padding: 10px 14px; font-size: 0.82rem; }
+    #inputCard .ability-cards { gap: 8px; }
+    #inputCard .ability-card-inner { padding: 10px 8px 8px; }
+    #inputCard .ability-name { font-size: 1rem; }
+    #inputCard .ability-desc { font-size: 0.74rem; }
+    #inputCard input[type="text"], #inputCard input[type="number"], #inputCard select { font-size: 1.05rem; padding: 7px 12px; border-color: #999; }
+    #inputCard .toggle-group label { padding: 6px 14px; font-size: 0.85rem; }
+    #inputCard .accordion-body { padding-bottom: 10px; }
 
     /* Page 1: summary chips */
     .test-summary { gap: 8px; margin-bottom: 10px; }
@@ -663,15 +866,17 @@
     .balance-card-value { font-size: 1.4rem; }
     .balance-verdict { padding: 8px 12px; font-size: 0.82rem; }
     .balance-verdict p { margin-bottom: 4px; }
-    #strokeSection { break-before: page; margin-top: 0; }
+    #strokeSection { margin-top: 10px; }
+    #owCard:not(.has-prediction) { display: none !important; }
+    #owCard .balance-section, #owCard .ow-two-col > div { break-inside: avoid; }
+    .ow-hero .balance-card-value { font-size: 1.6rem; }
+    .ledger td, .ledger th { padding: 5px 8px; font-size: 0.8rem; }
     .stroke-grid { gap: 8px; margin-bottom: 10px; }
     .stroke-flag { margin-top: 6px; padding: 5px 10px; font-size: 0.78rem; }
     .stroke-footnote { margin-top: 6px; font-size: 0.68rem; }
 
-    /* Page 2: shorthand reference (portrait) */
-    #shorthandCard { border: none; margin-bottom: 0; }
-    #shorthandCard .card-header { padding: 8px 14px; font-size: 1rem; }
-    #shorthandCard .card-body { padding: 14px 0 0; }
+    /* Shorthand reference */
+    #shorthandCard .card-body { padding: 14px; }
     .ref-grid { gap: 20px; }
     .ref-item { padding: 5px 0; }
     .ref-abbr { min-width: 66px; }
@@ -725,8 +930,8 @@
 <div class="container">
 
   <!-- ── INPUT CARD ── -->
-  <div class="card" id="inputCard">
-    <div class="card-header"><span class="icon">&#9201;</span> Enter Your Test Times</div>
+  <div class="card printable" id="inputCard">
+    <div class="card-header"><span class="icon">&#9201;</span> Enter Your Test Times <label class="print-check"><input type="checkbox" class="print-select"> Select to print</label></div>
     <div class="card-body">
 
       <!-- Protocol Info -->
@@ -739,7 +944,8 @@
           <li><strong>Long distance (500 or 800):</strong> Swim at the fastest pace you can sustain for the full distance — hard but controlled.</li>
         </ul>
         <p>Accurate test times are essential for reliable pace zones. Long-course athletes (70.3 / Ironman) are encouraged to use the 200/800 test for better race-specific data, while short-course athletes may prefer the 100/500.</p>
-        <p><strong>Count your strokes (optional):</strong> During each test swim, count your strokes on every length. Count each time a hand enters the water. Add them up and divide by the number of lengths to get your <strong>average strokes per length (SPL)</strong> for the short and the long swim. Enter both to get stroke count feedback on top of your pace zones, or leave both blank to skip it. Count per 25 yard or 25 meter length. In a 50 m pool, use half of your count per length.</p>
+        <p><strong>Count your strokes (optional):</strong> During each test swim, count your strokes on every length. Count each time a hand enters the water. Add them up and divide by the number of lengths to get your <strong>average strokes per length (SPL)</strong> for the short and the long swim. Enter both to get stroke count feedback on top of your pace zones, or leave both blank to skip it. Count per length of whatever pool you tested in and set the pool length in the additional pool data section.</p>
+        <p><strong>Racing open water?</strong> Open the Open Water Predictions and Planning section to turn your pool test into a predicted race swim time, adjusted for your experience, the conditions, your sighting and navigation, and whether you wear a wetsuit.</p>
         <p><strong>New to swimming?</strong> If you know your short distance time but haven't yet completed the full test, use the <strong>&#9889; Estimate</strong> button next to the longer distance field. It will calculate an approximate time based on your short distance multiplied out and adding 25%. This is a starting point — completing the full test will always give you more accurate pace zones.</p>
       </div>
 
@@ -811,14 +1017,40 @@
         </div>
       </div>
 
+      <details class="pool-accordion" id="poolAccordion">
+        <summary>
+          <span class="accordion-chevron"></span>
+          <span class="accordion-title-wrap">
+            <span class="accordion-title">Add additional pool data to increase accuracy</span>
+            <span class="accordion-sub">Required for open water calculations</span>
+          </span>
+        </summary>
+        <div class="accordion-body">
+
+      <div class="input-grid" style="margin-top:20px;">
+        <div class="input-group">
+          <label>Pool Length <span class="hint">used for stroke math</span></label>
+          <select id="poolLength">
+            <option value="25y">25 yards</option>
+            <option value="25m">25 meters</option>
+            <option value="50m">50 meters</option>
+            <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div class="input-group" id="poolLengthCustomWrap" style="display:none;">
+          <label>Custom Pool Length <span class="hint" id="poolLengthCustomUnit">yards</span></label>
+          <input type="number" id="poolLengthCustom" inputmode="decimal" min="10" max="100" step="0.5" placeholder="33.3" autocomplete="off">
+        </div>
+      </div>
+
       <div class="input-grid" id="strokeFields" style="margin-top:20px;">
         <div class="input-group">
-          <label id="labelSpl1">100 Avg Strokes Per Length <span class="hint">per 25 length, optional</span></label>
-          <input type="number" id="spl1" inputmode="decimal" min="6" max="45" step="0.5" placeholder="18" autocomplete="off">
+          <label id="labelSpl1">100 Avg Strokes Per Length <span class="hint">per length, optional</span></label>
+          <input type="number" id="spl1" inputmode="decimal" min="6" max="90" step="0.5" placeholder="18" autocomplete="off">
         </div>
         <div class="input-group">
-          <label id="labelSpl2">500 Avg Strokes Per Length <span class="hint">per 25 length, optional</span></label>
-          <input type="number" id="spl2" inputmode="decimal" min="6" max="45" step="0.5" placeholder="16" autocomplete="off">
+          <label id="labelSpl2">500 Avg Strokes Per Length <span class="hint">per length, optional</span></label>
+          <input type="number" id="spl2" inputmode="decimal" min="6" max="90" step="0.5" placeholder="16" autocomplete="off">
         </div>
       </div>
 
@@ -829,6 +1061,10 @@
           <span class="hint">How far off the wall you normally surface and take your first stroke. Used to remove the push-off from distance per stroke.</span>
         </div>
       </div>
+
+        </div>
+      </details>
+
 
       <div class="error-msg" id="errorMsg"></div>
 
@@ -844,8 +1080,8 @@
     <div class="test-summary" id="summaryChips"></div>
 
     <!-- Pace Table -->
-    <div class="card">
-      <div class="card-header"><span class="icon">&#127946;</span> Your V-Zone Paces</div>
+    <div class="card printable" id="paceCard">
+      <div class="card-header"><span class="icon">&#127946;</span> Your V-Zone Paces <label class="print-check"><input type="checkbox" class="print-select" checked> Select to print</label></div>
       <div class="card-body">
         <div class="pace-table-wrap">
           <table class="pace-table" id="paceTable">
@@ -862,17 +1098,21 @@
 
         <div id="balanceSection" class="balance-section" style="display:none;"></div>
         <div id="strokeSection" class="balance-section" style="display:none;"></div>
+      </div>
+    </div>
 
-        <div class="btn-row no-print">
+    <div class="card no-print" style="box-shadow:none;background:transparent;">
+      <div class="card-body" style="padding:0;">
+        <div class="btn-row no-print" style="margin-top:0;">
           <button class="btn-print" onclick="window.print()">&#128424; Print Results</button>
-          <button class="btn-calculate" style="background:var(--steel-blue);" id="btnEdit">&#9998; Edit Inputs</button>
+          <button class="btn-calculate btn-edit" style="background:var(--steel-blue);">&#9998; Edit Inputs</button>
         </div>
       </div>
     </div>
 
     <!-- Shorthand Reference -->
-    <div class="card" id="shorthandCard">
-      <div class="card-header"><span class="icon">&#128214;</span> Workout Shorthand Reference</div>
+    <div class="card printable" id="shorthandCard">
+      <div class="card-header"><span class="icon">&#128214;</span> Workout Shorthand Reference <label class="print-check"><input type="checkbox" class="print-select"> Select to print</label></div>
       <div class="card-body">
         <div class="ref-grid">
           <div>
@@ -918,6 +1158,94 @@
         </div>
       </div>
     </div>
+
+    <!-- Open Water Prediction -->
+    <div class="card printable" id="owCard" style="display:none;">
+      <div class="card-header"><span class="icon">&#127754;</span> Open Water Prediction and Race Plan <label class="print-check"><input type="checkbox" class="print-select"> Select to print</label></div>
+      <div class="card-body">
+      <!-- Open Water Predictions and Planning -->
+      <details class="pool-accordion no-print" id="owAccordion" style="margin-top:0;margin-bottom:20px;">
+        <summary>
+          <span class="accordion-chevron"></span>
+          <span class="accordion-title-wrap">
+            <span class="accordion-title">Open Water Predictions and Planning</span>
+            <span class="accordion-sub">Predict your race swim time from your pool test. Leave this closed to skip it.</span>
+          </span>
+        </summary>
+        <div class="accordion-body">
+
+          <div class="input-grid" style="margin-top:20px;">
+            <div class="input-group">
+              <label>Race Swim Distance</label>
+              <select id="raceDist">
+                <option value="325">325 m (Super Sprint)</option>
+                <option value="750">750 m (Sprint)</option>
+                <option value="1500" selected>1500 m (Olympic)</option>
+                <option value="1900">1900 m (70.3)</option>
+                <option value="3800">3800 m (Ironman)</option>
+                <option value="custom">Custom distance</option>
+              </select>
+            </div>
+            <div class="input-group" id="raceDistCustomWrap" style="display:none;">
+              <label>Custom Distance <span class="hint">meters</span></label>
+              <input type="number" id="raceDistCustom" inputmode="decimal" min="50" max="20000" step="25" placeholder="2400" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="slider-grid">
+            <div class="slider-group">
+              <div class="slider-head"><label>Open Water Experience</label><span class="slider-value" id="valExp">5</span></div>
+              <input type="range" id="sliderExp" min="0" max="10" step="1" value="5">
+              <div class="slider-ends"><span>New to racing</span><span>Very experienced</span></div>
+            </div>
+            <div class="slider-group">
+              <div class="slider-head"><label>Expected Swim Conditions</label><span class="slider-value" id="valCond">7</span></div>
+              <input type="range" id="sliderCond" min="0" max="10" step="1" value="7">
+              <div class="slider-ends"><span>Big waves and/or heavy chop</span><span>Flat and calm</span></div>
+            </div>
+            <div class="slider-group">
+              <div class="slider-head"><label>Sighting Skill</label><span class="slider-value" id="valSight">5</span></div>
+              <input type="range" id="sliderSight" min="0" max="10" step="1" value="5">
+              <div class="slider-ends"><span>Sighting breaks my stroke and pace</span><span>I can sight well</span></div>
+            </div>
+            <div class="slider-group">
+              <div class="slider-head"><label>Navigation Skill</label><span class="slider-value" id="valNav">5</span></div>
+              <input type="range" id="sliderNav" min="0" max="10" step="1" value="5">
+              <div class="slider-ends"><span>I navigate poorly in open water</span><span>I swim very straight</span></div>
+            </div>
+          </div>
+
+          <div class="input-grid" style="margin-top:24px;">
+            <div class="input-group">
+              <label>Swim Attire</label>
+              <div class="toggle-group" style="width:100%;">
+                <input type="radio" name="suit" id="suitWet" value="wetsuit" checked>
+                <label for="suitWet" style="flex:1;">Wetsuit</label>
+                <input type="radio" name="suit" id="suitSkin" value="skin">
+                <label for="suitSkin" style="flex:1;">Swim Skin</label>
+                <input type="radio" name="suit" id="suitNone" value="none">
+                <label for="suitNone" style="flex:1;">Non-Wetsuit</label>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Strokes Per Minute <span class="hint">optional, each hand entry counts as one</span></label>
+              <input type="number" id="spm" inputmode="decimal" min="20" max="120" step="1" placeholder="Auto from pool data" autocomplete="off">
+              <span class="auto-note" id="spmAutoNote">Enter your pool strokes per length and pool length above to auto-calculate this.</span>
+            </div>
+          </div>
+
+        </div>
+      </details>
+        <div class="error-msg no-print" id="owErrorMsg" style="margin:0 0 16px;"></div>
+        <div id="owBody"></div>
+      </div>
+    </div>
+
+    <div class="btn-row no-print" style="margin-top:0;">
+      <button class="btn-print" onclick="window.print()">&#128424; Print Results</button>
+      <button class="btn-calculate btn-edit" style="background:var(--steel-blue);">&#9998; Edit Inputs</button>
+    </div>
+
   </div>
 
 </div>
@@ -968,8 +1296,74 @@
     r.addEventListener('change', updateBreakoutUnit);
   });
   function updateBreakoutUnit() {
-    document.getElementById('breakoutHint').textContent = (getPoolType() === 'yards' ? 'yards' : 'meters') + ', optional';
+    var u = getPoolType() === 'yards' ? 'yards' : 'meters';
+    document.getElementById('breakoutHint').textContent = u + ', optional';
+    document.getElementById('poolLengthCustomUnit').textContent = u;
+    // Keep the pool length selector in step with the yards/meters toggle
+    var sel = document.getElementById('poolLength');
+    if (getPoolType() === 'yards' && (sel.value === '25m' || sel.value === '50m')) sel.value = '25y';
+    if (getPoolType() === 'meters' && sel.value === '25y') sel.value = '25m';
+    updateSpmNote();
   }
+
+  // ── POOL LENGTH ──
+  document.getElementById('poolLength').addEventListener('change', function() {
+    var v = this.value;
+    document.getElementById('poolLengthCustomWrap').style.display = v === 'custom' ? 'flex' : 'none';
+    if (v === '25y') document.getElementById('poolYards').checked = true;
+    if (v === '25m' || v === '50m') document.getElementById('poolMeters').checked = true;
+    updateBreakoutUnit();
+  });
+  function getPoolLength() {
+    var v = document.getElementById('poolLength').value;
+    if (v === 'custom') {
+      var c = parseFloat(document.getElementById('poolLengthCustom').value);
+      return (isNaN(c) || c <= 0) ? null : c;
+    }
+    return parseFloat(v);
+  }
+
+  // ── OPEN WATER INPUT WIRING ──
+  [['sliderExp','valExp'],['sliderCond','valCond'],['sliderSight','valSight'],['sliderNav','valNav']].forEach(function(p) {
+    var s = document.getElementById(p[0]), o = document.getElementById(p[1]);
+    s.addEventListener('input', function() { o.textContent = s.value; });
+  });
+  document.getElementById('raceDist').addEventListener('change', function() {
+    document.getElementById('raceDistCustomWrap').style.display = this.value === 'custom' ? 'flex' : 'none';
+  });
+  function getRaceDist() {
+    var v = document.getElementById('raceDist').value;
+    if (v === 'custom') {
+      var c = parseFloat(document.getElementById('raceDistCustom').value);
+      return (isNaN(c) || c <= 0) ? null : c;
+    }
+    return parseFloat(v);
+  }
+
+  // Auto strokes per minute from the long test swim:
+  // total strokes = SPL x lengths; swim time = test time x (pool length minus breakout) / pool length
+  function computeAutoSpm() {
+    var poolLen  = getPoolLength();
+    var spl2     = parseFloat(document.getElementById('spl2').value);
+    var secs2    = parseTime(document.getElementById('time2').value);
+    var breakout = parseFloat(document.getElementById('breakout').value) || 0;
+    if (!poolLen || isNaN(spl2) || secs2 === null || breakout >= poolLen) return null;
+    var longD    = getTestType() === '100' ? 500 : 800;
+    var lengths  = longD / poolLen;
+    var strokes  = spl2 * lengths;
+    var swimTime = secs2 * ((poolLen - breakout) / poolLen);
+    return strokes / (swimTime / 60);
+  }
+  function updateSpmNote() {
+    var a = computeAutoSpm();
+    var note = document.getElementById('spmAutoNote');
+    if (a === null) note.textContent = 'Enter your pool strokes per length and pool length above to auto-calculate this.';
+    else note.textContent = 'Auto from your pool data: ' + Math.round(a) + ' strokes per minute. Leave blank to use it, or type your own.';
+  }
+  ['time2','spl2','breakout','poolLengthCustom'].forEach(function(id) {
+    document.getElementById(id).addEventListener('input', updateSpmNote);
+  });
+  document.querySelectorAll('input[name="testType"]').forEach(function(r) { r.addEventListener('change', updateSpmNote); });
 
   function updateLabels() {
     var t = getTestType();
@@ -1078,15 +1472,15 @@
   // ── STROKE COUNT ANALYSIS ──
   // Compares average strokes per length (SPL) on the short and long test swims.
   // Thresholds are a coaching synthesis of the USAT knowledge base and published research.
-  function buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout) {
+  function buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout, poolLen) {
     var shortD = testType === '100' ? 100 : 200;
     var longD  = testType === '100' ? 500 : 800;
     var pace1  = secs1 / (shortD / 100);
     var pace2  = secs2 / (longD / 100);
     var d      = spl2 - spl1;
     var unit   = poolType === 'yards' ? 'yd' : 'm';
-    // Distance per stroke: swimming portion of the length (25 minus the distance out before the first stroke) divided by strokes
-    var swimLen = 25 - breakout;
+    // Distance per stroke: swimming portion of each length (pool length minus the distance out before the first stroke) divided by strokes per length
+    var swimLen = poolLen - breakout;
     var dps1   = swimLen / spl1;
     var dps2   = swimLen / spl2;
     var paceTxt = fmtTime(pace1) + ' to ' + fmtTime(pace2) + ' per 100';
@@ -1142,28 +1536,133 @@
     if (together) html += '<p><strong>Putting it together:</strong> ' + together + '</p>';
     html += '</div>';
 
-    if (spl2 > 20) {
-      html += '<div class="stroke-flag"><strong>Above 20 strokes per length:</strong> athletes tend to stop catching the water as effectively and stop rotating, which creates increased drag. It also places additional strain on the smaller muscle groups and takes load away from the larger, more fatigue-resistant muscle groups.</div>';
-    } else if (spl2 < 12) {
-      html += '<div class="stroke-flag"><strong>Below 12 per length:</strong> this is under the typical range. It can simply reflect a long arm span, but if your pace is lagging, check for over-gliding and dead spots.</div>';
+    var spl2per25 = spl2 * (25 / poolLen);
+    if (spl2per25 > 20) {
+      html += '<div class="stroke-flag"><strong>Above 20 strokes per 25:</strong> athletes tend to stop catching the water as effectively and stop rotating, which creates increased drag. It also places additional strain on the smaller muscle groups and takes load away from the larger, more fatigue-resistant muscle groups.</div>';
+    } else if (spl2per25 < 12) {
+      html += '<div class="stroke-flag"><strong>Below 12 per 25:</strong> this is under the typical range. It can simply reflect a long arm span, but if your pace is lagging, check for over-gliding and dead spots.</div>';
     }
 
-    html += '<div class="stroke-footnote">Typical targets in the USAT knowledge base are 12 to 17 strokes per 25 yards and 15 to 18 per 25 meters. Individualize by arm span rather than chasing one number. The cutoffs above are a coaching synthesis of the knowledge base and published research, not published standards. Stroke count is one marker, so confirm with pace and stroke rate before diagnosing from count alone. ' + (breakout > 0 ? 'Distance per stroke is (25 minus ' + fmtN(breakout) + ') divided by your stroke count, so the push off the wall does not bias it.' : 'Distance per stroke is 25 divided by your stroke count and includes the push off the wall. Enter the distance out before your first stroke to remove it.') + '</div>';
+    html += '<div class="stroke-footnote">Typical targets in the USAT knowledge base are 12 to 17 strokes per 25 yards and 15 to 18 per 25 meters. Individualize by arm span rather than chasing one number. The cutoffs above are a coaching synthesis of the knowledge base and published research, not published standards. Stroke count is one marker, so confirm with pace and stroke rate before diagnosing from count alone. ' + (breakout > 0 ? 'Distance per stroke is (' + fmtN(poolLen) + ' minus ' + fmtN(breakout) + ') divided by your strokes per length, so the push off the wall does not bias it.' : 'Distance per stroke is ' + fmtN(poolLen) + ' divided by your strokes per length and includes the push off the wall. Enter the distance out before your first stroke to remove it.') + '</div>';
     return html;
+  }
+
+  // ── OPEN WATER PREDICTION ──
+  // Base model: first 100 m at 95% of the sprint test speed, the rest at 95% of the
+  // long test speed. Every full 1000 m beyond the first takes a further 0.5% off the effort.
+  // Then percentage adjustments are summed and applied to the base time.
+  function fmtTimeSec(t) {
+    // M:SS with whole seconds, used for race times
+    return fmtTime(Math.round(t));
+  }
+  function buildOpenWaterHTML(o) {
+    var toMeters   = o.poolType === 'yards' ? 1.0936 : 1;   // 100 m is 109.36 yd
+    var sprint100  = (o.testType === '100' ? o.secs1 : o.secs1 / 2) * toMeters; // pool pace per 100 m
+    var endur100   = (o.testType === '100' ? o.secs2 / 5 : o.secs2 / 8) * toMeters;
+
+    var segments = [];
+    var first = Math.min(100, o.raceDist);
+    var firstTime = (first / 100) * sprint100 / 0.95;
+    segments.push({ label: 'Start: first ' + fmtN(first) + ' m', dist: first, effort: 95, pacePer100: sprint100 / 0.95, time: firstTime, note: 'Sprint test speed x 95%' });
+
+    var base = firstTime, pos = first, rem = o.raceDist - first;
+    while (rem > 0) {
+      var block    = Math.floor(pos / 1000);
+      var effort   = 0.95 - 0.005 * block;
+      var blockEnd = (block + 1) * 1000;
+      var seg      = Math.min(rem, blockEnd - pos);
+      var segTime  = (seg / 100) * endur100 / effort;
+      segments.push({ label: fmtN(pos) + ' to ' + fmtN(pos + seg) + ' m', dist: seg, effort: Math.round(effort * 1000) / 10, pacePer100: endur100 / effort, time: segTime, note: 'Long test speed x ' + (Math.round(effort * 1000) / 10) + '%' });
+      base += segTime; pos += seg; rem -= seg;
+    }
+
+    var adj = [
+      { name: 'Open water experience', detail: o.exp + '/10',   pct: (10 - o.exp) * 0.5 },
+      { name: 'Swim conditions',       detail: o.cond + '/10',  pct: (10 - o.cond) * 1.0 },
+      { name: 'Sighting skill',        detail: o.sight + '/10', pct: 1 + (10 - o.sight) * 0.5 },
+      { name: 'Navigation skill',      detail: o.nav + '/10',   pct: (10 - o.nav) * 0.5 },
+      { name: 'Swim attire',           detail: o.suit === 'wetsuit' ? 'Wetsuit' : (o.suit === 'skin' ? 'Swim skin' : 'Non-wetsuit'), pct: o.suit === 'wetsuit' ? -5 : (o.suit === 'skin' ? -2 : 0) }
+    ];
+    var totalPct = adj.reduce(function(s, a) { return s + a.pct; }, 0);
+    var finalT   = base * (1 + totalPct / 100);
+    var avg100   = finalT / (o.raceDist / 100);
+    var factor   = 1 + totalPct / 100;
+
+    var h = '';
+    h += '<div class="ow-hero">';
+    h += '<div class="balance-card predicted"><div class="balance-card-label">Predicted ' + fmtN(o.raceDist) + ' m Swim Time</div><div class="balance-card-value">' + fmtTimeSec(finalT) + '</div></div>';
+    h += '<div class="balance-card neutral"><div class="balance-card-label">Average Pace Per 100 m</div><div class="balance-card-value">' + fmtTimeSec(avg100) + '</div></div>';
+    h += '<div class="balance-card ' + (totalPct <= 0 ? 'good' : 'actual') + '"><div class="balance-card-label">Net Adjustment to Pool-Based Time</div><div class="balance-card-value">' + fmtSigned(totalPct) + '%</div></div>';
+    h += '</div>';
+
+    h += '<div class="ow-two-col">';
+
+    // Adjustment ledger
+    h += '<div><div class="balance-title">How the Prediction Is Built</div>';
+    h += '<table class="ledger"><thead><tr><th>Factor</th><th>Adjustment</th><th>Time</th></tr></thead><tbody>';
+    h += '<tr><td>Pool-based open water time<span class="sub">From your ' + (o.testType === '100' ? '100 / 500' : '200 / 800') + ' test' + (o.poolType === 'yards' ? ', converted from yards' : '') + '</span></td><td></td><td>' + fmtTimeSec(base) + '</td></tr>';
+    adj.forEach(function(a) {
+      var secs = base * a.pct / 100;
+      var cls  = a.pct > 0 ? 'pos' : (a.pct < 0 ? 'neg' : '');
+      h += '<tr><td>' + a.name + '<span class="sub">' + a.detail + '</span></td><td class="' + cls + '">' + fmtSigned(a.pct) + '%</td><td class="' + cls + '">' + (secs >= 0 ? '+' : '-') + fmtTimeSec(Math.abs(secs)) + '</td></tr>';
+    });
+    h += '<tr class="total"><td>Predicted swim time</td><td>' + fmtSigned(totalPct) + '%</td><td>' + fmtTimeSec(finalT) + '</td></tr>';
+    h += '</tbody></table></div>';
+
+    // Pacing plan
+    h += '<div><div class="balance-title">Race Pacing Plan</div>';
+    h += '<table class="ledger"><thead><tr><th>Segment</th><th>Effort</th><th>Pace / 100 m</th><th>Split</th></tr></thead><tbody>';
+    segments.forEach(function(s) {
+      h += '<tr><td>' + s.label + '<span class="sub">' + s.note + '</span></td><td>' + s.effort + '%</td><td>' + fmtTimeSec(s.pacePer100 * factor) + '</td><td>' + fmtTimeSec(s.time * factor) + '</td></tr>';
+    });
+    h += '<tr class="total"><td>Total</td><td></td><td>' + fmtTimeSec(avg100) + '</td><td>' + fmtTimeSec(finalT) + '</td></tr>';
+    h += '</tbody></table>';
+    h += '<div class="stroke-footnote" style="margin-top:8px;">Paces and splits include your net adjustment, so these are the numbers to plan around on race day.</div>';
+    h += '</div></div>';
+
+    // Stroke rate planning
+    if (o.spm !== null && !isNaN(o.spm)) {
+      var totalStrokes = o.spm * (finalT / 60);
+      var strokesPer100 = totalStrokes / (o.raceDist / 100);
+      h += '<div class="balance-section" style="margin-top:20px;"><div class="balance-title">Stroke Rate Planning</div>';
+      h += '<div class="stroke-grid">';
+      h += '<div class="balance-card neutral"><div class="balance-card-label">Strokes Per Minute' + (o.spmSource === 'auto' ? ' (auto from pool data)' : '') + '</div><div class="balance-card-value">' + Math.round(o.spm) + '</div></div>';
+      h += '<div class="balance-card neutral"><div class="balance-card-label">Strokes Per 100 m</div><div class="balance-card-value">' + Math.round(strokesPer100) + '</div></div>';
+      h += '<div class="balance-card neutral"><div class="balance-card-label">Total Strokes for the Swim</div><div class="balance-card-value">' + Math.round(totalStrokes).toLocaleString() + '</div></div>';
+      h += '<div class="balance-card neutral"><div class="balance-card-label">Sighting Every 8 Strokes</div><div class="balance-card-value">' + Math.round(totalStrokes / 8).toLocaleString() + ' looks</div></div>';
+      h += '</div>';
+      h += '<div class="stroke-footnote">Each hand entry counts as one stroke. Open water usually rewards a slightly higher rate than the pool, so treat this as the floor for your race cadence, not the ceiling.' + (o.spmSource === 'auto' ? ' The auto value comes from your long test swim: total strokes divided by the time you actually spent swimming once the push-offs are removed.' : '') + '</div>';
+      h += '</div>';
+    }
+
+    h += '<div class="stroke-footnote" style="margin-top:16px;">Model: first 100 m at 95% of your sprint test speed, the remainder at 95% of your long test speed, with a further 0.5% off the effort for each full 1000 m beyond the first. Experience adds 0 to 5%, conditions 0 to 10%, sighting 1 to 6%, navigation 0 to 5%. A wetsuit takes 5% off and a swim skin 2%. All adjustments are summed and applied to the pool-based time. Race distances are in meters' + (o.poolType === 'yards' ? ', so yard paces are converted at 1.0936 yards per meter' : '') + '.</div>';
+    return h;
   }
 
   // ── CALCULATE ──
   document.getElementById('btnCalc').addEventListener('click', calculate);
-  document.getElementById('btnEdit').addEventListener('click', function() {
-    document.getElementById('inputCard').scrollIntoView({ behavior: 'smooth' });
+  document.querySelectorAll('.btn-edit').forEach(function(b) {
+    b.addEventListener('click', function() {
+      document.getElementById('inputCard').scrollIntoView({ behavior: 'smooth' });
+    });
   });
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Enter') calculate();
   });
 
-  function calculate() {
+  // Live refresh: once results exist, any change in the open water section re-runs the
+  // calculation in place (no scroll), so the prediction updates as the sliders move.
+  var owAcc = document.getElementById('owAccordion');
+  function owLive() { if (document.getElementById('results').classList.contains('visible')) calculate(true); }
+  owAcc.addEventListener('input',  owLive);
+  owAcc.addEventListener('change', owLive);
+  owAcc.addEventListener('toggle', owLive);
+
+  function calculate(quiet) {
     var errEl = document.getElementById('errorMsg');
     errEl.style.display = 'none';
+    document.getElementById('owErrorMsg').style.display = 'none';
+    if (quiet === true) errEl = document.getElementById('owErrorMsg');
 
     var secs1 = parseTime(document.getElementById('time1').value);
     var secs2 = parseTime(document.getElementById('time2').value);
@@ -1174,20 +1673,32 @@
       return;
     }
 
+    var poolType = getPoolType();
+    var poolLen  = getPoolLength();
+    if (poolLen === null) {
+      document.getElementById('poolAccordion').open = true;
+      errEl.textContent = 'Enter your custom pool length, or pick 25 yards, 25 meters or 50 meters.';
+      errEl.style.display = 'block';
+      return;
+    }
+
     // Optional stroke count inputs: both or neither
     var splRaw1 = document.getElementById('spl1').value.trim();
     var splRaw2 = document.getElementById('spl2').value.trim();
     var spl1 = null, spl2 = null;
+    var splMin = 6 * (poolLen / 25), splMax = 45 * (poolLen / 25);
     if (splRaw1 !== '' || splRaw2 !== '') {
       spl1 = parseFloat(splRaw1);
       spl2 = parseFloat(splRaw2);
       if (isNaN(spl1) || isNaN(spl2)) {
+        document.getElementById('poolAccordion').open = true;
         errEl.textContent = 'To get stroke count feedback, enter your average strokes per length for both the short and the long swim. Leave both blank to skip it.';
         errEl.style.display = 'block';
         return;
       }
-      if (spl1 < 6 || spl1 > 45 || spl2 < 6 || spl2 > 45) {
-        errEl.textContent = 'Average strokes per length should be between 6 and 45 for a 25 yard or 25 meter length. In a 50 m pool, use half of your count per length.';
+      if (spl1 < splMin || spl1 > splMax || spl2 < splMin || spl2 > splMax) {
+        document.getElementById('poolAccordion').open = true;
+        errEl.textContent = 'Average strokes per length should be between ' + fmtN(splMin) + ' and ' + fmtN(splMax) + ' for a ' + fmtN(poolLen) + ' ' + (poolType === 'yards' ? 'yard' : 'meter') + ' pool.';
         errEl.style.display = 'block';
         return;
       }
@@ -1197,10 +1708,32 @@
     var breakout = 0;
     if (breakRaw !== '') {
       breakout = parseFloat(breakRaw);
-      if (isNaN(breakout) || breakout < 0 || breakout > 15) {
-        errEl.textContent = 'Distance out before your first stroke should be between 0 and 15 yards or meters.';
+      if (isNaN(breakout) || breakout < 0 || breakout >= poolLen) {
+        document.getElementById('poolAccordion').open = true;
+        errEl.textContent = 'Distance out before your first stroke should be between 0 and ' + fmtN(poolLen) + ' ' + (poolType === 'yards' ? 'yards' : 'meters') + '.';
         errEl.style.display = 'block';
         return;
+      }
+    }
+
+    // Open water inputs, only when that section is open
+    var owOpen   = document.getElementById('owAccordion').open;
+    var raceDist = null, spmManual = null;
+    if (owOpen) {
+      raceDist = getRaceDist();
+      if (raceDist === null) {
+        errEl.textContent = 'Enter a custom race distance in meters, or pick one from the list.';
+        errEl.style.display = 'block';
+        return;
+      }
+      var spmRaw = document.getElementById('spm').value.trim();
+      if (spmRaw !== '') {
+        spmManual = parseFloat(spmRaw);
+        if (isNaN(spmManual) || spmManual < 20 || spmManual > 120) {
+          errEl.textContent = 'Strokes per minute should be between 20 and 120, or leave it blank to auto-calculate.';
+          errEl.style.display = 'block';
+          return;
+        }
       }
     }
 
@@ -1281,6 +1814,9 @@
       chipsHTML += '<div class="summary-chip" style="background:var(--steel-blue);"><span>Avg SPL:</span> ' + fmtN(spl1) + ' / ' + fmtN(spl2) + '</div>';
     }
 
+    if (owOpen) {
+      chipsHTML += '<div class="summary-chip" style="background:var(--steel-blue);"><span>Race:</span> ' + fmtN(raceDist) + ' m</div>';
+    }
     chipsHTML += '<div class="summary-chip" style="background:' + abilityColors[ability] + ';">' + abilityLabel + ' Level</div>';
     chipsHTML += '<div class="summary-chip" style="background:var(--dark-blue);"><span>Pool:</span> ' + poolType.charAt(0).toUpperCase() + poolType.slice(1) + '</div>';
     chipsEl.innerHTML = chipsHTML;
@@ -1316,23 +1852,87 @@
     var strokeEl = document.getElementById('strokeSection');
     if (spl1 !== null) {
       var balState = balPct <= 3 ? 'balanced' : (balDiff > 0 ? 'speed' : 'endurance');
-      strokeEl.innerHTML = buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout);
+      strokeEl.innerHTML = buildStrokeHTML(spl1, spl2, secs1, secs2, testType, poolType, balState, breakout, poolLen);
       strokeEl.style.display = 'block';
     } else {
       strokeEl.innerHTML = '';
       strokeEl.style.display = 'none';
     }
 
+    // Open water prediction. The card always shows once there are results, because the
+    // open water inputs live in it; the prediction itself renders only when the section is open.
+    var owCard = document.getElementById('owCard');
+    owCard.style.display = 'block';
+    owCard.classList.toggle('has-prediction', owOpen);
+    if (owOpen) {
+      var spmAuto = computeAutoSpm();
+      var spm     = spmManual !== null ? spmManual : spmAuto;
+      document.getElementById('owBody').innerHTML = buildOpenWaterHTML({
+        raceDist: raceDist, secs1: secs1, secs2: secs2, testType: testType, poolType: poolType,
+        exp:   parseInt(document.getElementById('sliderExp').value),
+        cond:  parseInt(document.getElementById('sliderCond').value),
+        sight: parseInt(document.getElementById('sliderSight').value),
+        nav:   parseInt(document.getElementById('sliderNav').value),
+        suit:  document.querySelector('input[name="suit"]:checked').value,
+        spm:   spm, spmSource: spmManual !== null ? 'entered' : (spmAuto !== null ? 'auto' : null)
+      });
+    } else {
+      document.getElementById('owBody').innerHTML = '<div class="stroke-footnote" style="margin-top:0;">Open the section above, set your race details, and your prediction will appear here.</div>';
+    }
+
     var resultsEl = document.getElementById('results');
     resultsEl.classList.add('visible');
-    resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (quiet !== true) resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+
+
+  // ── PRINT SELECTION ──
+  // Each banner checkbox marks its card to print. The first ticked card is flagged so the
+  // page break lands after the site header instead of leaving the header alone on page 1.
+  // The summary chips print with the V-Zone card.
+  function syncPrintSelection() {
+    var first = true;
+    document.querySelectorAll('.printable').forEach(function(card) {
+      var cb = card.querySelector('.print-select');
+      var on = cb && cb.checked;
+      card.classList.toggle('print-on', !!on);
+      card.classList.toggle('print-first', !!on && first);
+      if (on) first = false;
+    });
+    var pace  = document.getElementById('paceCard');
+    var chips = document.getElementById('summaryChips');
+    var paceOn = pace.classList.contains('print-on');
+    chips.classList.toggle('print-on', paceOn);
+    chips.classList.toggle('print-first', paceOn && pace.classList.contains('print-first'));
+  }
+  document.querySelectorAll('.print-select').forEach(function(cb) {
+    cb.addEventListener('change', syncPrintSelection);
+    // Keep a click on the checkbox from toggling anything else in the banner
+    cb.parentElement.addEventListener('click', function(e) { e.stopPropagation(); });
+  });
+  window.addEventListener('beforeprint', syncPrintSelection);
+  syncPrintSelection();
 
   // ── INIT ──
   updateLabels();
   updateBreakoutUnit();
+  updateSpmNote();
 
 })();
+</script>
+
+<!-- PREVIEW ONLY: pre-fills sample test data and runs the calculation so results are visible. Delete this block before publishing. -->
+<script>
+window.addEventListener('load', function () {
+  document.getElementById('time1').value = '1:30';
+  document.getElementById('time2').value = '7:45';
+  document.getElementById('spl1').value = '17';
+  document.getElementById('spl2').value = '19';
+  document.getElementById('breakout').value = '5';
+  document.getElementById('owAccordion').open = true;
+  document.getElementById('breakout').dispatchEvent(new Event('input'));
+  document.getElementById('btnCalc').click();
+});
 </script>
 
 </body>
